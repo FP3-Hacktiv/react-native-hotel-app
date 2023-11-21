@@ -5,6 +5,7 @@ const initialState = {
 	hotels: [],
 	isLoading: false,
 	error: null,
+  user: null,
 	booked: [],
 };
 
