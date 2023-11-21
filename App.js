@@ -1,44 +1,83 @@
-import { StatusBar } from 'expo-status-bar';
-import { TouchableOpacity } from 'react-native';
-import { StyleSheet, Text, View } from 'react-native';
+import React from 'react';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import { NavigationContainer } from '@react-navigation/native';
+import { NativeBaseProvider } from 'native-base';
+import { Provider } from 'react-redux';
+import store from './redux/hotel';
+import HomeScreen from './screen/HomeScreen';
+import Search from './screen/Search';
+import BookingHistoryPage from './screen/BookingHistoryPage';
+import ProfilePage from './screen/ProfilePage';
+import { Icon } from 'react-native-elements';
 
-export default function App() {
+const Tab = createBottomTabNavigator();
+const Drawer = createDrawerNavigator();
+
+function TabNavigator() {
   return (
-    <View style={styles.container}>
-      <Text style={styles.text}>Hello World! React Native</Text>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => alert('You Touched Me!')}
-      >
-        <Text style={styles.buttonText}>Touch Me!</Text>
-      </TouchableOpacity>
-      <StatusBar style="light" />
-    </View>
+    <Tab.Navigator>
+      <Tab.Screen
+        name="Home"
+        component={HomeScreen}
+        options={{
+          headerShown: false,
+          tabBarIcon: ({ color, size }) => (
+            <Icon type="feather" name="home" color={color} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Search"
+        component={Search}
+        options={{
+          headerShown: false,
+          tabBarIcon: ({ color, size }) => (
+            <Icon type="feather" name="search" color={color} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Booking History"
+        component={BookingHistoryPage}
+        options={{
+          headerShown: false,
+          tabBarIcon: ({ color, size }) => (
+            <Icon type="feather" name="book" color={color} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Profile"
+        component={ProfilePage}
+        options={{
+          headerShown: false,
+          tabBarIcon: ({ color, size }) => (
+            <Icon type="feather" name="user" color={color} />
+          ),
+        }}
+      />
+    </Tab.Navigator>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  text: {
-    marginBottom: 6,
-  },
-  buttonText: {
-    color: 'red',
-    fontSize: 14,
-  },
-  button: {
-    marginTop: 6,
-    paddingTop: 2,
-    paddingLeft: 4,
-    paddingRight: 4,
-    paddingBottom: 2,
-    borderRadius: 5,
-    borderWidth: 1,
-    borderColor: 'red',
-  }
-});
+function MyTabs() {
+  return (
+    <NativeBaseProvider>
+      <Drawer.Navigator initialRouteName="Home">
+        <Drawer.Screen name="Home" component={TabNavigator} />
+        {/* Add more screens in the drawer if needed */}
+      </Drawer.Navigator>
+    </NativeBaseProvider>
+  );
+}
+
+export default function App() {
+  return (
+    <Provider store={store}>
+      <NavigationContainer>
+        <MyTabs />
+      </NavigationContainer>
+    </Provider>
+  );
+}
