@@ -5,7 +5,7 @@ import { NativeBaseProvider } from 'native-base';
 import { Provider, useSelector } from 'react-redux';
 import store from './redux/hotel';
 import HomeScreen from './screen/HomeScreen';
-import Search from './screen/Search';
+import Search from './screen/SearchScreen';
 import BookingHistoryScreen from './screen/BookingHistoryScreen';
 import BookingScreen from './screen/BookingScreen';
 import ProfileScreen from './screen/ProfileScreen';
