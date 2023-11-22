@@ -30,8 +30,7 @@ const styles = StyleSheet.create({
   bottomcontainer: {
     backgroundColor: '#fff',
     alignItems:'center',
-    marginBottom
-    :10
+    marginBottom:10
   },
   scrollContainer:{
     flex:1

@@ -5,7 +5,6 @@ import { ScrollView } from 'react-native';
 
 const Hotels = () => {
   return (
-    // <ScrollView>
     <View>
     <Text style={styles.header}>Top Destination</Text>
     <View style={styles.container}>
@@ -80,7 +79,6 @@ const Hotels = () => {
       </View>
     </View>
     </View>
-    // </ScrollView>
   );
 };
 

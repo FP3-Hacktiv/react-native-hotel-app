@@ -1,9 +1,11 @@
 import { TextInput } from "react-native";
 import { View, Text, StyleSheet } from "react-native";
 import Icon from 'react-native-vector-icons/FontAwesome';
+import IconIon from 'react-native-vector-icons/Ionicons';
 
-const myIcon = <Icon name="bell" size={25} color="#fafafa" />;
-const searchIcon = <Icon name="search" size={25} color="#fafafa" />;
+const myIcon = <Icon name="bell" size={20} color="#fafafa" />;
+const searchIcon = <Icon name="search" size={20} color="#fafafa" />;
+const location = <IconIon name="location-outline" size={20} color="#fafafa" />;
 
 const Headers = () => {
     return(
@@ -11,6 +13,21 @@ const Headers = () => {
         <View style={styles.header}>
             <Text style={styles.left}>Location</Text>
             <Text style={styles.right}>{myIcon}</Text>
+        </View>
+        <View style={{
+            flexDirection:'row',
+            alignItems:'center',
+            justifyContent:'flex-start',
+            marginBottom: 10,
+            marginLeft:15
+        }}>
+            {location}
+            <Text style={{
+                color:'#ffff',
+                fontSize:16,
+            }}>
+                Jakarta, Indonesiax
+            </Text>
         </View>
         <View style={styles.input}>
             <TextInput style={styles.textInput} placeholder="search" value="Search..."></TextInput>
@@ -31,7 +48,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         paddingHorizontal: 20, 
-        paddingVertical: 10,
+        paddingTop: 5,
     },
     left: {
         flex: 0,
