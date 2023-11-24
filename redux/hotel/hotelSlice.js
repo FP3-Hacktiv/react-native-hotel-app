@@ -3,6 +3,7 @@ import {
   getDestinationId,
   getHotelByLocation,
   getLocation,
+  getReviewList,
 } from "./hotelAction";
 
 const initialState = {
@@ -63,6 +64,17 @@ const hotelSlice = createSlice({
       state.error = payload;
     });
     builder.addCase(getDestinationId.fulfilled, (state, { payload }) => {
+      state.isLoading = false;
+      state.error = null;
+    });
+    builder.addCase(getReviewList.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(getReviewList.rejected, (state, { payload }) => {
+      state.isLoading = false;
+      state.error = payload;
+    });
+    builder.addCase(getReviewList.fulfilled, (state, { payload }) => {
       state.isLoading = false;
       state.error = null;
     });
