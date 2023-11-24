@@ -84,3 +84,24 @@ export const getHotelByLocation = createAsyncThunk(
     }
   }
 );
+
+export const getReviewList = createAsyncThunk(
+  "getReview",
+  async ({ hotel_ids }, { rejectWithValue }) => {
+    try {
+      const response = await apiInstance.get("/reviews/list", {
+        params: {
+          hotel_ids,
+          languagecode: "id",
+          user_sort: "sort_recent_desc",
+          rows: "10",
+          offset: "0",
+          filter_language: "id",
+        },
+      });
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);

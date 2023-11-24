@@ -12,18 +12,21 @@ import {
   Image,
   Text,
   Center,
-  HStack,
-  Stack,
   NativeBaseProvider,
   View,
   Spinner,
   ScrollView,
   Button,
+  VStack,
+  Stack,
 } from "native-base";
 
 function ListHotel({ navigation }) {
   const [hotels, setHotels] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [loadingMore, setLoadingMore] = useState(false);
+  const [offset, setOffset] = useState(0);
+  const [endReached, setEndReached] = useState(false);
   const route = useRoute();
   const { cityName } = route.params;
   const dispatch = useDispatch();
@@ -36,19 +39,34 @@ function ListHotel({ navigation }) {
         })
       );
       const response = await dispatch(
-        getHotelByLocation({ dest_id: payload[0].dest_id })
+        getHotelByLocation({ dest_id: payload[0].dest_id, offset })
       );
-      setHotels(response.payload.result);
-      setLoading(false);
+
+      const newHotels = response.payload.result;
+
+      if (newHotels.length === 0) {
+        setEndReached(true);
+      }
+
+      setHotels((prevHotels) => [...prevHotels, ...newHotels]);
     } catch (error) {
+      console.error("Error fetching hotels:", error);
+    } finally {
       setLoading(false);
-      console.error("Error fetching destination ID:", error);
+      setLoadingMore(false);
+    }
+  };
+
+  const handleLoadMore = () => {
+    if (!endReached) {
+      setOffset((prevOffset) => prevOffset + 1);
+      setLoadingMore(true);
     }
   };
 
   useEffect(() => {
     handlerGetHotel();
-  }, []);
+  }, [offset]);
 
   return (
     <View
@@ -60,11 +78,30 @@ function ListHotel({ navigation }) {
       }}
     >
       {loading ? (
-        <Spinner />
+        <Spinner size="lg" color="blue.500" />
       ) : (
-        <ScrollView>
+        <ScrollView
+          width={"full"}
+          flex={1}
+          showsVerticalScrollIndicator={false}
+          onScroll={({ nativeEvent }) => {
+            if (
+              !endReached &&
+              nativeEvent.contentOffset.y +
+                nativeEvent.layoutMeasurement.height >=
+                nativeEvent.contentSize.height - 20
+            ) {
+              handleLoadMore();
+            }
+          }}
+        >
           {hotels.map((item, index) => (
-            <Box key={index} alignItems="center" style={{ marginBottom: 10 }}>
+            <Box
+              key={index}
+              width="100%"
+              alignItems="center"
+              style={{ marginBottom: 10 }}
+            >
               <Box
                 maxW="80"
                 rounded="lg"
@@ -146,6 +183,10 @@ function ListHotel({ navigation }) {
               </Box>
             </Box>
           ))}
+          {loadingMore && (
+            <Spinner style={({ marginTop: 10 }, { marginBottom: 10 })} />
+          )}
+          {endReached && <Text>No more hotels to load</Text>}
         </ScrollView>
       )}
     </View>
