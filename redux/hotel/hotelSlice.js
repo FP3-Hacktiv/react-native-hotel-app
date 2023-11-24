@@ -1,12 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getLocation } from "./hotelAction";
+import {
+  getDestinationId,
+  getHotelByLocation,
+  getLocation,
+} from "./hotelAction";
 
 const initialState = {
-	hotels: [],
-	isLoading: false,
-	error: null,
+  hotels: [],
+  isLoading: false,
+  error: null,
   user: null,
-	booked: [],
+  booked: [],
 };
 
 const hotelSlice = createSlice({
@@ -30,19 +34,40 @@ const hotelSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(getLocation.pending, (state) => {
-			state.isLoading = true;
-		});
-		builder.addCase(getLocation.rejected, (state, { payload }) => {
-			state.isLoading = false;
-			state.error = payload;
-		});
-		builder.addCase(getLocation.fulfilled, (state, { payload }) => {
-			state.isLoading = false;
-			state.error = null;
-			state.products = payload.data;
-		});
+      state.isLoading = true;
+    });
+    builder.addCase(getLocation.rejected, (state, { payload }) => {
+      state.isLoading = false;
+      state.error = payload;
+    });
+    builder.addCase(getLocation.fulfilled, (state, { payload }) => {
+      state.isLoading = false;
+      state.error = null;
+    });
+    builder.addCase(getHotelByLocation.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(getHotelByLocation.rejected, (state, { payload }) => {
+      state.isLoading = false;
+      state.error = payload;
+    });
+    builder.addCase(getHotelByLocation.fulfilled, (state, { payload }) => {
+      state.isLoading = false;
+      state.error = null;
+    });
+    builder.addCase(getDestinationId.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(getDestinationId.rejected, (state, { payload }) => {
+      state.isLoading = false;
+      state.error = payload;
+    });
+    builder.addCase(getDestinationId.fulfilled, (state, { payload }) => {
+      state.isLoading = false;
+      state.error = null;
+    });
   },
 });
 
-export const {bookHotel, removeHotel, updateHotel} = hotelSlice.actions;
+export const { bookHotel, removeHotel, updateHotel } = hotelSlice.actions;
 export default hotelSlice.reducer;
