@@ -7,11 +7,15 @@ import Headers from "../../components/Headers";
 import { StyleSheet, TextInput } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import City from "../../components/home/City";
+import DatePicker from "react-native-date-picker";
+import darkColors from "react-native-elements/dist/config/colorsDark";
 
 export default HomeScreen = ({ navigation }) => {
   const [cities, setCities] = useState([]);
   const [loading, setLoading] = useState(true);
-  const searchIcon = <Icon name="search" size={20} color="black" />;
+  const searchIcon = <Icon name="search" size={20} color="#fafafa" />;
+  const [date, setDate] = useState(new Date())
+  const [open, setOpen] = useState(false)
 
   const dispatch = useDispatch();
 
@@ -49,9 +53,15 @@ export default HomeScreen = ({ navigation }) => {
             <TextInput
               style={styles.textInput}
               placeholder="search"
-              value="Search..."
+              value="Search Your Destination or Hotel"
             ></TextInput>
-            <Button borderRadius={8}>{searchIcon}</Button>
+            <View style={{flexDirection:'row', alignItems:'center', justifyContent:'space-around'}}>
+              <Button style={{marginVertical:10, width:200, backgroundColor:'white'}} onPress={() => setOpen(true)} variant={darkColors}>Check In Date</Button>
+              <Button style={{marginVertical:10, width:200, backgroundColor:'white'}} onPress={() => setOpen(true)} variant={darkColors}>Check In Date</Button>
+            </View>
+            <Button style={{
+              backgroundColor:'#689ff1'
+            }}  borderRadius={8}>{searchIcon}</Button>
           </View>
           <Hotels />
           <City />
@@ -63,15 +73,15 @@ export default HomeScreen = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   input: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-evenly",
+    // flexDirection: "row",
+    // alignItems: "center",
+    // justifyContent: "space-evenly",
     marginVertical: 10,
     paddingRight: 4,
   },
   textInput: {
     marginLeft: 5,
-    width: 350,
+    width: 'auto',
     height: 40,
     borderColor: "#fafafa",
     borderWidth: 1,
@@ -79,5 +89,6 @@ const styles = StyleSheet.create({
     color: "#010101",
     borderRadius: 8,
     backgroundColor: "#fafafa",
+    marginBottom:5
   },
 });
