@@ -122,10 +122,12 @@ export const login = createAsyncThunk(
         const response = { username, status: "success" };
         return response;
       } else {
-        return rejectWithValue("Invalid credentials");
+        return rejectWithValue({
+          message: "Invalid Credentials",
+          status: "error",
+        });
       }
     } catch (error) {
-      // Handle other errors if needed
       return rejectWithValue(error.message);
     }
   }

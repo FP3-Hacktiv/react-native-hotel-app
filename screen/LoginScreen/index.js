@@ -25,10 +25,16 @@ export const LoginScreen = () => {
       });
     }
     const response = await dispatch(login({ username, password }));
-
-    if (response) {
+    console.log(response.payload.message);
+    if (response.status === "success") {
       return toast.show({
         title: "Login Success",
+        placement: "top",
+        variant: "top-accent",
+      });
+    } else {
+      return toast.show({
+        title: response.payload.message,
         placement: "top",
         variant: "top-accent",
       });
