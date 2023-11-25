@@ -3,6 +3,8 @@ import {
   getDestinationId,
   getHotelByLocation,
   getLocation,
+  getReviewList,
+  login,
 } from "./hotelAction";
 
 const initialState = {
@@ -37,7 +39,7 @@ const hotelSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(getLocation.pending, (state) => {
-      state.isLoading = true;
+      state.isLoading = false;
     });
     builder.addCase(getLocation.rejected, (state, { payload }) => {
       state.isLoading = false;
@@ -48,7 +50,7 @@ const hotelSlice = createSlice({
       state.error = null;
     });
     builder.addCase(getHotelByLocation.pending, (state) => {
-      state.isLoading = true;
+      state.isLoading = false;
     });
     builder.addCase(getHotelByLocation.rejected, (state, { payload }) => {
       state.isLoading = false;
@@ -59,7 +61,7 @@ const hotelSlice = createSlice({
       state.error = null;
     });
     builder.addCase(getDestinationId.pending, (state) => {
-      state.isLoading = true;
+      state.isLoading = false;
     });
     builder.addCase(getDestinationId.rejected, (state, { payload }) => {
       state.isLoading = false;
@@ -68,6 +70,29 @@ const hotelSlice = createSlice({
     builder.addCase(getDestinationId.fulfilled, (state, { payload }) => {
       state.isLoading = false;
       state.error = null;
+    });
+    builder.addCase(getReviewList.pending, (state) => {
+      state.isLoading = false;
+    });
+    builder.addCase(getReviewList.rejected, (state, { payload }) => {
+      state.isLoading = false;
+      state.error = payload;
+    });
+    builder.addCase(getReviewList.fulfilled, (state, { payload }) => {
+      state.isLoading = false;
+      state.error = null;
+    });
+    builder.addCase(login.pending, (state) => {
+      state.isLoading = false;
+    });
+    builder.addCase(login.rejected, (state, { payload }) => {
+      state.isLoading = false;
+      state.error = payload;
+    });
+    builder.addCase(login.fulfilled, (state, { payload }) => {
+      state.isLoading = false;
+      state.error = null;
+      state.user = payload;
     });
   },
 });

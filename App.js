@@ -10,10 +10,10 @@ import BookingHistoryScreen from "./screen/BookingHistoryScreen";
 import BookingScreen from "./screen/BookingScreen";
 import ProfileScreen from "./screen/ProfileScreen";
 import { Icon } from "react-native-elements";
-import LoginScreen from "./screen/LoginScreen";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import DetailScreen from "./screen/DetailScreen";
 import ListHotel from "./screen/ListHotel";
+import { LoginScreen } from "./screen/LoginScreen";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -26,11 +26,7 @@ function MyStack() {
         component={HomeScreen}
         options={{ headerShown: false }}
       />
-      <Stack.Screen
-        name="Detail"
-        component={DetailScreen}
-        options={{ headerShown: false }}
-      />
+      <Stack.Screen name="Detail" component={DetailScreen} />
       <Stack.Screen
         name="ListHotel"
         component={ListHotel}

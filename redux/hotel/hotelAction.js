@@ -84,3 +84,51 @@ export const getHotelByLocation = createAsyncThunk(
     }
   }
 );
+
+export const getReviewList = createAsyncThunk(
+  "getReview",
+  async ({ hotel_ids }, { rejectWithValue }) => {
+    try {
+      const response = await apiInstance.get("/reviews/list", {
+        params: {
+          hotel_ids,
+          languagecode: "id",
+          user_sort: "sort_recent_desc",
+          rows: "10",
+          offset: "0",
+          filter_language: "id",
+        },
+      });
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
+
+export const login = createAsyncThunk(
+  "login",
+  async ({ username, password }, { rejectWithValue }) => {
+    try {
+      const credential = {
+        username: "User",
+        password: "user123",
+      };
+
+      if (
+        username === credential.username &&
+        password === credential.password
+      ) {
+        const response = { username, status: "success" };
+        return response;
+      } else {
+        return rejectWithValue({
+          message: "Invalid Credentials",
+          status: "error",
+        });
+      }
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
