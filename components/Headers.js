@@ -29,17 +29,13 @@ const Headers = () => {
                 Jakarta, Indonesiax
             </Text>
         </View>
-        <View style={styles.input}>
-            <TextInput style={styles.textInput} placeholder="search" value="Search..."></TextInput>
-            {searchIcon}
-        </View>
     </View>
     )
 }
 
 const styles = StyleSheet.create({
     container: {  
-        paddingTop:35,
+        paddingTop: 15,
         backgroundColor:'#689ff1',
         borderRadius:8,
         paddingVertical:15
@@ -48,7 +44,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         paddingHorizontal: 20, 
-        paddingTop: 5,
+        paddingTop: 15,
     },
     left: {
         flex: 0,
@@ -59,22 +55,5 @@ const styles = StyleSheet.create({
     right: {
         flex:0
     },
-    input:{
-        flexDirection:'row',
-        alignItems:'center',
-        justifyContent:'space-evenly',
-        marginBottom: 10,
-    },
-    textInput :{
-        marginLeft:5,
-        width: 300,
-        height: 40,
-        borderColor: '#fafafa',
-        borderWidth: 1,
-        padding: 10,
-        color:'#010101',
-        borderRadius:8,
-        backgroundColor:'#fafafa'
-    }
   });
 export default Headers;

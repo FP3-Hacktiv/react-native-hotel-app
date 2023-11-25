@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, ActivityIndicator, StyleSheet } from 'react-native';
-import HomeScreen from './HomeScreen';
+import HomeScreen from '../HomeScreen';
 
 
 const Login = () => {
@@ -31,9 +31,7 @@ const Login = () => {
   }
 
   if (isLoggedIn) {
-    // Jika login berhasil, navigasi ke halaman beranda
-    // Anda dapat menggunakan React Navigation atau alat navigasi lainnya
-    return <HomeScreen/>;
+    return <HomeScreen/>
   }
 
   return (
