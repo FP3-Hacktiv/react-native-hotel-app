@@ -6,9 +6,9 @@ import IconIon from "react-native-vector-icons/Ionicons";
 import * as Location from "expo-location";
 import { useDispatch, useSelector } from "react-redux";
 import { getLocationUser } from "../redux/hotel/hotelAction";
+import { Spinner } from "native-base";
 
 const myIcon = <Icon name="bell" size={20} color="#fafafa" />;
-const searchIcon = <Icon name="search" size={20} color="#fafafa" />;
 const locationIcon = (
   <IconIon name="location-outline" size={20} color="#fafafa" />
 );
@@ -17,6 +17,7 @@ const Headers = () => {
   const { isLoading, locationUser } = useSelector((state) => state.hotels);
   const [date, setDate] = useState(new Date(1598051730000));
   const dispatch = useDispatch();
+  console.log(locationUser);
 
   useEffect(() => {
     (async () => {
@@ -58,7 +59,7 @@ const Headers = () => {
             fontSize: 16,
           }}
         >
-          {locationUser}
+          {isLoading ? <Spinner /> : locationUser}
         </Text>
       </View>
     </View>
