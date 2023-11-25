@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import { NativeBaseProvider } from "native-base";
@@ -14,6 +14,8 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import DetailScreen from "./screen/DetailScreen";
 import ListHotel from "./screen/ListHotel";
 import { LoginScreen } from "./screen/LoginScreen";
+
+import LandingPage from "./screen/LandingScreen";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -33,7 +35,6 @@ function MyStack() {
         options={{ headerShown: false }}
       />
       <Stack.Screen name="Booking" component={BookingScreen} />
-      <Stack.Screen name="LoginScreen" component={BookingScreen} />
     </Stack.Navigator>
   );
 }
@@ -101,12 +102,20 @@ function MyTabs() {
     </NativeBaseProvider>
   );
 }
-
 export default function App() {
+  const [showTabs, setShowTabs] = useState(false);
+  
+    const handleShowTabs = (value) => {
+      setShowTabs(value);
+    };
   return (
     <Provider store={store}>
       <NavigationContainer>
-        <MyTabs />
+        {showTabs ? (
+          <MyTabs/>
+        ) : (
+          <LandingPage setShowTabs={handleShowTabs}/>
+        )}
       </NavigationContainer>
     </Provider>
   );
