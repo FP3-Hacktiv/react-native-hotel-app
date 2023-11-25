@@ -14,8 +14,8 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import DetailScreen from "./screen/DetailScreen";
 import ListHotel from "./screen/ListHotel";
 import { LoginScreen } from "./screen/LoginScreen";
-
 import LandingPage from "./screen/LandingScreen";
+import { StatusBar } from "expo-status-bar";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -104,18 +104,15 @@ function MyTabs() {
 }
 export default function App() {
   const [showTabs, setShowTabs] = useState(false);
-  
-    const handleShowTabs = (value) => {
-      setShowTabs(value);
-    };
+
+  const handleShowTabs = (value) => {
+    setShowTabs(value);
+  };
   return (
     <Provider store={store}>
       <NavigationContainer>
-        {showTabs ? (
-          <MyTabs/>
-        ) : (
-          <LandingPage setShowTabs={handleShowTabs}/>
-        )}
+        {showTabs ? <MyTabs /> : <LandingPage setShowTabs={handleShowTabs} />}
+        {/* <StatusBar /> */}
       </NavigationContainer>
     </Provider>
   );

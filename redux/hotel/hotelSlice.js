@@ -12,6 +12,7 @@ const initialState = {
   isLoading: false,
   error: null,
   user: null,
+  location: null,
   booked: [],
 };
 
@@ -20,7 +21,7 @@ const hotelSlice = createSlice({
   initialState,
   reducers: {
     getLocationFailure: (state, action) => {
-      state.error = action.payload.message || 'Network Error';
+      state.error = action.payload.message || "Network Error";
     },
     bookHotel: (state, { payload }) => {
       state.booked.push(payload);
@@ -48,6 +49,7 @@ const hotelSlice = createSlice({
     builder.addCase(getLocation.fulfilled, (state, { payload }) => {
       state.isLoading = false;
       state.error = null;
+      state.location = payload;
     });
     builder.addCase(getHotelByLocation.pending, (state) => {
       state.isLoading = false;
