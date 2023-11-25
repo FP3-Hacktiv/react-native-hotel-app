@@ -2,11 +2,11 @@ import { Button, Spinner, Text, View, ScrollView } from "native-base";
 import { useDispatch } from "react-redux";
 import { getLocation } from "../../redux/hotel/hotelAction";
 import { useEffect, useState } from "react";
-import Hotels from "../../components/home/Hotels";
 import Headers from "../../components/Headers";
 import { StyleSheet, TextInput } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
-import City from "../../components/home/City";
+import Hotels from "../../components/Home/Hotels";
+import City from "./../../components/Home/City";
 import DatePicker from "react-native-date-picker";
 import darkColors from "react-native-elements/dist/config/colorsDark";
 
@@ -14,8 +14,8 @@ export default HomeScreen = ({ navigation }) => {
   const [cities, setCities] = useState([]);
   const [loading, setLoading] = useState(true);
   const searchIcon = <Icon name="search" size={20} color="#fafafa" />;
-  const [date, setDate] = useState(new Date())
-  const [open, setOpen] = useState(false)
+  const [date, setDate] = useState(new Date());
+  const [open, setOpen] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -55,16 +55,47 @@ export default HomeScreen = ({ navigation }) => {
               placeholder="search"
               value="Search Your Destination or Hotel"
             ></TextInput>
-            <View style={{flexDirection:'row', alignItems:'center', justifyContent:'space-around'}}>
-              <Button style={{marginVertical:10, width:200, backgroundColor:'white'}} onPress={() => setOpen(true)} variant={darkColors}>Check In Date</Button>
-              <Button style={{marginVertical:10, width:200, backgroundColor:'white'}} onPress={() => setOpen(true)} variant={darkColors}>Check In Date</Button>
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "space-around",
+              }}
+            >
+              <Button
+                style={{
+                  marginVertical: 10,
+                  width: 200,
+                  backgroundColor: "white",
+                }}
+                onPress={() => setOpen(true)}
+                variant={darkColors}
+              >
+                Check In Date
+              </Button>
+              <Button
+                style={{
+                  marginVertical: 10,
+                  width: 200,
+                  backgroundColor: "white",
+                }}
+                onPress={() => setOpen(true)}
+                variant={darkColors}
+              >
+                Check In Date
+              </Button>
             </View>
-            <Button style={{
-              backgroundColor:'#689ff1'
-            }}  borderRadius={8}>{searchIcon}</Button>
+            <Button
+              style={{
+                backgroundColor: "#689ff1",
+              }}
+              borderRadius={8}
+            >
+              {searchIcon}
+            </Button>
           </View>
           <Hotels />
-          <City />
+          <City navigation={navigation} />
         </ScrollView>
       )}
     </View>
@@ -81,7 +112,7 @@ const styles = StyleSheet.create({
   },
   textInput: {
     marginLeft: 5,
-    width: 'auto',
+    width: "auto",
     height: 40,
     borderColor: "#fafafa",
     borderWidth: 1,
@@ -89,6 +120,6 @@ const styles = StyleSheet.create({
     color: "#010101",
     borderRadius: 8,
     backgroundColor: "#fafafa",
-    marginBottom:5
+    marginBottom: 5,
   },
 });
