@@ -4,6 +4,31 @@ import { API_KEY } from "@env";
 import axios from "axios";
 import { getTodayDate, getTomorrowDate } from "./../../utils";
 
+export const getLocationUser = createAsyncThunk(
+  "getUserLocation",
+  async ({ latitude, longitude }, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(
+        "https://geocodeapi.p.rapidapi.com/GetNearestCities",
+        {
+          params: {
+            latitude,
+            longitude,
+            range: "0",
+          },
+          headers: {
+            "X-RapidAPI-Key": `${API_KEY}`,
+            "X-RapidAPI-Host": "geocodeapi.p.rapidapi.com",
+          },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
+
 export const getLocation = createAsyncThunk(
   "getLocation",
   async (data, { rejectWithValue }) => {

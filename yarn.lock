@@ -4249,10 +4249,22 @@
   "resolved" "https://registry.npmjs.org/expo-keep-awake/-/expo-keep-awake-12.3.0.tgz"
   "version" "12.3.0"
 
+<<<<<<< HEAD
 "expo-modules-autolinking@>=0.8.1", "expo-modules-autolinking@1.5.1":
   "integrity" "sha512-yt5a1VCp2BF9CrsO689PCD5oXKP14MMhnOanQMvDn4BDpURYfzAlDVGC5fZrNQKtwn/eq3bcrxIwZ7D9QjVVRg=="
   "resolved" "https://registry.npmjs.org/expo-modules-autolinking/-/expo-modules-autolinking-1.5.1.tgz"
   "version" "1.5.1"
+=======
+expo-location@~16.1.0:
+  version "16.1.0"
+  resolved "https://registry.yarnpkg.com/expo-location/-/expo-location-16.1.0.tgz#251a465790d6622f828fd18f0edb2a73b9664b72"
+  integrity sha512-/jfRyYrXb9vjr8HoYmVHnzEqnw+0jaoRbHsxj6ePPAbevXmvXZqYHFRtfZtQ+q32SB4X6kUAXu28eBcLS+tqaA==
+
+expo-modules-autolinking@1.5.1:
+  version "1.5.1"
+  resolved "https://registry.npmjs.org/expo-modules-autolinking/-/expo-modules-autolinking-1.5.1.tgz"
+  integrity sha512-yt5a1VCp2BF9CrsO689PCD5oXKP14MMhnOanQMvDn4BDpURYfzAlDVGC5fZrNQKtwn/eq3bcrxIwZ7D9QjVVRg==
+>>>>>>> 39b8b4fe3cfaf031d196d69872d2f8305a575062
   dependencies:
     "@expo/config" "~8.1.0"
     "chalk" "^4.1.0"
