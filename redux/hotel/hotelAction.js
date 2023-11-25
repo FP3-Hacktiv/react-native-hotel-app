@@ -105,3 +105,28 @@ export const getReviewList = createAsyncThunk(
     }
   }
 );
+
+export const login = createAsyncThunk(
+  "login",
+  async ({ username, password }, { rejectWithValue }) => {
+    try {
+      const credential = {
+        username: "User",
+        password: "user123",
+      };
+
+      if (
+        username === credential.username &&
+        password === credential.password
+      ) {
+        const response = { username, status: "success" };
+        return response;
+      } else {
+        return rejectWithValue("Invalid credentials");
+      }
+    } catch (error) {
+      // Handle other errors if needed
+      return rejectWithValue(error.message);
+    }
+  }
+);
