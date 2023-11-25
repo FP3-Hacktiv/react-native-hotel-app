@@ -3,6 +3,7 @@ import {
   getDestinationId,
   getHotelByLocation,
   getLocation,
+  getLocationUser,
   getReviewList,
   login,
 } from "./hotelAction";
@@ -95,6 +96,19 @@ const hotelSlice = createSlice({
       state.isLoading = false;
       state.error = null;
       state.user = payload;
+    });
+    builder.addCase(getLocationUser.pending, (state) => {
+      state.isLoading = false;
+    });
+    builder.addCase(getLocationUser.rejected, (state, { payload }) => {
+      state.isLoading = false;
+      state.error = payload;
+    });
+    builder.addCase(getLocationUser.fulfilled, (state, { payload }) => {
+      state.isLoading = false;
+      state.error = null;
+      console.log(payload);
+      state.location = payload;
     });
   },
 });

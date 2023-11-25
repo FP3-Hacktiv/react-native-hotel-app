@@ -30,7 +30,7 @@ const City = () => {
               <View style={styles.column} key={index}>
                 <Image style={styles.image} source={img} />
                 <Text style={styles.title}>
-                  {item.regionNames.primaryDisplayName}
+                  {item.regionNames?.primaryDisplayName}
                 </Text>
               </View>
             ))}
