@@ -2,11 +2,11 @@ import { Button, Spinner, Text, View, ScrollView } from "native-base";
 import { useDispatch } from "react-redux";
 import { getLocation } from "../../redux/hotel/hotelAction";
 import { useEffect, useState } from "react";
-import Hotels from "../../components/home/Hotels";
 import Headers from "../../components/Headers";
 import { StyleSheet, TextInput } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
-import City from "../../components/home/City";
+import Hotels from "../../components/Home/Hotels";
+import City from "./../../components/Home/City";
 
 export default HomeScreen = ({ navigation }) => {
   const [cities, setCities] = useState([]);
@@ -54,7 +54,7 @@ export default HomeScreen = ({ navigation }) => {
             <Button borderRadius={8}>{searchIcon}</Button>
           </View>
           <Hotels />
-          <City />
+          <City navigation={navigation} />
         </ScrollView>
       )}
     </View>

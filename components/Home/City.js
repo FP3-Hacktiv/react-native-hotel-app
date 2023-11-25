@@ -1,12 +1,18 @@
 import React, { useEffect } from "react";
-import { View, Image, Text, StyleSheet, Dimensions } from "react-native";
-import hotelDummy from "../../dummyData/hotelsDummy";
+import {
+  View,
+  Image,
+  Text,
+  StyleSheet,
+  Dimensions,
+  Pressable,
+} from "react-native";
 import { ScrollView, Spinner } from "native-base";
 import { useDispatch, useSelector } from "react-redux";
 import { getLocation } from "../../redux/hotel/hotelAction";
 import img from "./../../assets/image/hotel.jpg";
 
-const City = () => {
+const City = ({ navigation }) => {
   const dispatch = useDispatch();
   const { loading, location } = useSelector((state) => state.hotels);
 
@@ -27,12 +33,21 @@ const City = () => {
             contentContainerStyle={styles.scrollViewContent}
           >
             {location.map((item, index) => (
-              <View style={styles.column} key={index}>
-                <Image style={styles.image} source={img} />
-                <Text style={styles.title}>
-                  {item.regionNames?.primaryDisplayName}
-                </Text>
-              </View>
+              <Pressable
+                onPress={() =>
+                  navigation.navigate("ListHotel", {
+                    cityName: item.regionNames.primaryDisplayName,
+                  })
+                }
+                key={index}
+              >
+                <View style={styles.column}>
+                  <Image style={styles.image} source={img} />
+                  <Text style={styles.title}>
+                    {item.regionNames?.primaryDisplayName}
+                  </Text>
+                </View>
+              </Pressable>
             ))}
           </ScrollView>
         )}

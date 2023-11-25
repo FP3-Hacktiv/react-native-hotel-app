@@ -4,7 +4,7 @@ import { View, Text, StyleSheet } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import IconIon from "react-native-vector-icons/Ionicons";
 import * as Location from "expo-location";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getLocationUser } from "../redux/hotel/hotelAction";
 
 const myIcon = <Icon name="bell" size={20} color="#fafafa" />;
@@ -14,8 +14,10 @@ const locationIcon = (
 );
 
 const Headers = () => {
-  const [locationUser, setLocationUser] = useState(null);
+  const { isLoading, locationUser } = useSelector((state) => state.hotels);
+  const [date, setDate] = useState(new Date(1598051730000));
   const dispatch = useDispatch();
+
   useEffect(() => {
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
@@ -25,15 +27,15 @@ const Headers = () => {
       }
 
       let { coords } = await Location.getCurrentPositionAsync({});
-      const { payload } = await dispatch(
+      await dispatch(
         getLocationUser({
           latitude: coords.latitude,
           longitude: coords.longitude,
         })
       );
-      setLocationUser(payload[0].City);
     })();
   }, []);
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
