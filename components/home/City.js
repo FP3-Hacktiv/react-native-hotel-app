@@ -1,67 +1,77 @@
-import React from 'react';
-import { View, Image, Text, StyleSheet, Dimensions } from 'react-native';
-import hotelDummy from '../../dummyData/hotelsDummy';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import IconIon from 'react-native-vector-icons/Ionicons';
-import { ScrollView } from 'native-base';
-
+import React, { useEffect } from "react";
+import { View, Image, Text, StyleSheet, Dimensions } from "react-native";
+import hotelDummy from "../../dummyData/hotelsDummy";
+import { ScrollView, Spinner } from "native-base";
+import { useDispatch, useSelector } from "react-redux";
+import { getLocation } from "../../redux/hotel/hotelAction";
+import img from "./../../assets/image/hotel.jpg";
 
 const City = () => {
-    const uniqueCityNames = hotelDummy.filter(
-        (item, index, self) => self.findIndex((t) => t.cityName === item.cityName) === index
-      );
-    return (
+  const dispatch = useDispatch();
+  const { loading, location } = useSelector((state) => state.hotels);
+
+  useEffect(() => {
+    dispatch(getLocation());
+  }, []);
+
+  return (
     <View>
-        <Text style={styles.header}>Explore City</Text>
-        <View style={styles.container}>
-        <ScrollView
+      <Text style={styles.header}>Explore City</Text>
+      <View style={styles.container}>
+        {loading ? (
+          <Spinner />
+        ) : (
+          <ScrollView
             horizontal
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={styles.scrollViewContent}
-        >
-            {uniqueCityNames.map((item, index) => (
-            <View style={styles.column} key={index}>
-                <Image style={styles.image} source={item.image} />
-                <Text style={styles.title}>{item.cityName}</Text>
-            </View>
+          >
+            {location.map((item, index) => (
+              <View style={styles.column} key={index}>
+                <Image style={styles.image} source={img} />
+                <Text style={styles.title}>
+                  {item.regionNames.primaryDisplayName}
+                </Text>
+              </View>
             ))}
-        </ScrollView>
-        </View>
+          </ScrollView>
+        )}
+      </View>
     </View>
-    );
+  );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     paddingVertical: 10,
-    marginBottom:15,
+    marginBottom: 15,
   },
   column: {
     flex: 1,
-    position:'relative',
-    marginHorizontal:10
+    position: "relative",
+    marginHorizontal: 10,
   },
   image: {
     width: 50,
     height: 50,
     borderRadius: 50,
     marginBottom: 5,
-    marginHorizontal:5
+    marginHorizontal: 5,
   },
   title: {
     fontSize: 14,
-    fontWeight: 'bold',
-    textAlign: 'center',
+    fontWeight: "bold",
+    textAlign: "center",
   },
-  header:{
-    fontSize:24,
-    fontWeight:'500',
-    marginHorizontal:15,
-    marginVertical:5,
-  }
+  header: {
+    fontSize: 24,
+    fontWeight: "500",
+    marginHorizontal: 15,
+    marginVertical: 5,
+  },
 });
 
 export default City;

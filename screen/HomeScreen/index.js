@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import Hotels from "../../components/home/Hotels";
 import Headers from "../../components/Headers";
 import { StyleSheet, TextInput } from "react-native";
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from "react-native-vector-icons/FontAwesome";
 import City from "../../components/home/City";
 
 export default HomeScreen = ({ navigation }) => {
@@ -30,36 +30,31 @@ export default HomeScreen = ({ navigation }) => {
   }, []);
 
   return (
-    <View >
-      <Headers/>
+    <View>
+      <Headers />
       {loading ? (
-        <View>
-          <Text>Home Screen!</Text> 
+        <View
+          style={{
+            flex: 1,
+            justifyContent: loading ? "center" : "flex-start",
+            alignItems: "center",
+            marginTop: 50,
+          }}
+        >
           <Spinner />
         </View>
       ) : (
-        <ScrollView style={{marginBottom:100}}>
+        <ScrollView style={{ marginBottom: 100 }}>
           <View style={styles.input}>
-              <TextInput style={styles.textInput} placeholder="search" value="Search..."></TextInput>
-              {searchIcon}
+            <TextInput
+              style={styles.textInput}
+              placeholder="search"
+              value="Search..."
+            ></TextInput>
+            <Button borderRadius={8}>{searchIcon}</Button>
           </View>
-          <Hotels/>
-          <City/>
-          {/* {Array.isArray(cities) && cities.map((city, index) => (
-            <View style={{ marginBottom: 10 }} key={index}>
-              <Button
-                small
-                primary
-                onPress={() =>
-                  navigation.navigate("ListHotel", {
-                    cityName: city.regionNames.primaryDisplayName,
-                  })
-                }
-              >
-                <Text>{city.regionNames.primaryDisplayName}</Text>
-              </Button>
-            </View>
-          ))} */}
+          <Hotels />
+          <City />
         </ScrollView>
       )}
     </View>
@@ -67,21 +62,22 @@ export default HomeScreen = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  input:{
-    flexDirection:'row',
-    alignItems:'center',
-    justifyContent:'space-evenly',
+  input: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-evenly",
     marginVertical: 10,
+    paddingRight: 4,
   },
-  textInput :{
-      marginLeft:5,
-      width: 350,
-      height: 40,
-      borderColor: '#fafafa',
-      borderWidth: 1,
-      padding: 10,
-      color:'#010101',
-      borderRadius:8,
-      backgroundColor:'#fafafa'
-  }
-})
+  textInput: {
+    marginLeft: 5,
+    width: 350,
+    height: 40,
+    borderColor: "#fafafa",
+    borderWidth: 1,
+    padding: 10,
+    color: "#010101",
+    borderRadius: 8,
+    backgroundColor: "#fafafa",
+  },
+});
