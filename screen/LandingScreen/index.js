@@ -7,7 +7,7 @@ import {
 } from "react-native";
 import hotelImg from "../../assets/image/landing.jpg";
 import * as Location from "expo-location";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getLocationUser } from "../../redux/hotel/hotelAction";
 import { Spinner } from "native-base";
@@ -17,8 +17,7 @@ const LandingPage = ({ setShowTabs }) => {
     setShowTabs(value);
   };
   const dispatch = useDispatch();
-  const { isLoading } = useSelector((state) => state.hotels);
-
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
@@ -34,6 +33,7 @@ const LandingPage = ({ setShowTabs }) => {
           longitude: coords.longitude,
         })
       );
+      setLoading(false);
     })();
   }, []);
 
@@ -72,8 +72,8 @@ const LandingPage = ({ setShowTabs }) => {
             marginBottom: 40,
           }}
         >
-          {isLoading ? (
-            <Text style={styles.titleLanding}>Loading...</Text>
+          {loading ? (
+            <Text style={styles.subtitleLanding}>Loading...</Text>
           ) : (
             <TouchableOpacity
               style={styles.button}

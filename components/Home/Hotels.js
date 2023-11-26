@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Image, Text, StyleSheet } from "react-native";
+import { View, Image, Text, StyleSheet, Pressable } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import IconIon from "react-native-vector-icons/Ionicons";
 import hotelDummy from "../../dummyData/hotelsDummy";
@@ -11,7 +11,6 @@ import {
 } from "../../redux/hotel/hotelAction";
 import { useDispatch, useSelector } from "react-redux";
 import img from "./../../assets/image/hotel.jpg";
-import Loading from "../Loading";
 
 const Hotels = () => {
   const startIcon = <Icon name="star-o" size={10} color="black" />;
@@ -19,8 +18,7 @@ const Hotels = () => {
     <IconIon name="location-outline" size={15} color="black" />
   );
   const dispatch = useDispatch();
-  const { locationUser, isLoading } = useSelector((state) => state.hotels);
-  const [destinationId, setDestinationId] = useState({});
+  const { locationUser } = useSelector((state) => state.hotels);
   const [topHotels, setTopHotels] = useState([]);
   const [popularHotels, setPopularHotels] = useState([]);
   const [loadingTopHotels, setLoadingTopHotels] = useState(true);
@@ -90,7 +88,7 @@ const Hotels = () => {
             contentContainerStyle={styles.scrollViewContent}
           >
             {topHotels.map((item, index) => (
-              <View style={styles.column} key={index}>
+              <Pressable style={styles.column} key={index}>
                 <Image style={styles.topImage} source={img} />
                 <Text
                   style={{
@@ -113,7 +111,7 @@ const Hotels = () => {
                     {locationIcon} {item.city_name_en}, {item.country_trans}
                   </Text>
                 </View>
-              </View>
+              </Pressable>
             ))}
           </ScrollView>
         )}
@@ -137,10 +135,10 @@ const Hotels = () => {
             contentContainerStyle={styles.scrollViewContent}
           >
             {popularHotels.map((item, index) => (
-              <View style={styles.column} key={index}>
+              <Pressable style={styles.column} key={index}>
                 <Image style={styles.image} source={img} />
                 <Text style={styles.title}>{item.hotel_name}</Text>
-              </View>
+              </Pressable>
             ))}
           </ScrollView>
         )}
