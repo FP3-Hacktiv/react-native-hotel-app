@@ -73,7 +73,7 @@ const LandingPage = ({ setShowTabs }) => {
           }}
         >
           {isLoading ? (
-            <Text>Loading...</Text>
+            <Text style={styles.titleLanding}>Loading...</Text>
           ) : (
             <TouchableOpacity
               style={styles.button}

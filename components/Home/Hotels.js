@@ -1,14 +1,59 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { View, Image, Text, StyleSheet } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import IconIon from "react-native-vector-icons/Ionicons";
 import hotelDummy from "../../dummyData/hotelsDummy";
 import destinationDummy from "../../dummyData/destinationDummy";
-import { ScrollView } from "native-base";
+import { ScrollView, Spinner } from "native-base";
+import {
+  getDestinationId,
+  getHotelByLocation,
+} from "../../redux/hotel/hotelAction";
+import { useDispatch, useSelector } from "react-redux";
+import img from "./../../assets/image/hotel.jpg";
+import Loading from "../Loading";
 
 const Hotels = () => {
   const startIcon = <Icon name="star-o" size={10} color="black" />;
-  const location = <IconIon name="location-outline" size={15} color="black" />;
+  const locationIcon = (
+    <IconIon name="location-outline" size={15} color="black" />
+  );
+  const dispatch = useDispatch();
+  const { locationUser, isLoading } = useSelector((state) => state.hotels);
+  const [destinationId, setDestinationId] = useState({});
+  const [topHotels, setTopHotels] = useState([]);
+  const [popularHotels, setPopularHotels] = useState([]);
+  const [loadingTopHotels, setLoadingTopHotels] = useState(true);
+  const [loadingPopularHotels, setLoadingPopularHotels] = useState(true);
+
+  const handleScreen = async () => {
+    const { payload } = await dispatch(
+      getDestinationId({ cityName: locationUser })
+    );
+
+    const responseTopHotel = await dispatch(
+      getHotelByLocation({
+        dest_id: payload[0].dest_id,
+        order_by: "review_score",
+      })
+    );
+    setLoadingTopHotels(false);
+    setTopHotels(responseTopHotel.payload.result);
+
+    const responsePopularHotels = await dispatch(
+      getHotelByLocation({
+        dest_id: payload[0].dest_id,
+        order_by: "popularity",
+      })
+    );
+    setLoadingPopularHotels(false);
+    setPopularHotels(responsePopularHotels.payload.result);
+  };
+
+  useEffect(() => {
+    handleScreen();
+  }, []);
+
   return (
     <View>
       <Text style={styles.header}>Top Destination</Text>
@@ -28,51 +73,77 @@ const Hotels = () => {
       </View>
       <Text style={styles.header}>Top Hotels</Text>
       <View style={styles.container}>
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={styles.scrollViewContent}
-        >
-          {hotelDummy.map((item, index) => (
-            <View style={styles.column} key={index}>
-              <Image style={styles.topImage} source={item.image} />
-              <Text
-                style={{
-                  position: "absolute",
-                  top: 10,
-                  left: 15,
-                  color: "black",
-                  fontSize: 12,
-                  backgroundColor: "white",
-                  paddingHorizontal: 5,
-                  paddingVertical: 2,
-                  borderRadius: 6,
-                }}
-              >
-                {item.ratings} {startIcon}
-              </Text>
-              <Text style={styles.topTitle}>{item.title}</Text>
-              <Text style={styles.topLocation}>
-                {location} {item.cityName}, {item.country}
-              </Text>
-            </View>
-          ))}
-        </ScrollView>
+        {loadingTopHotels ? (
+          <View
+            style={{
+              flex: 1,
+              justifyContent: loadingTopHotels ? "center" : "flex-start",
+              alignItems: "center",
+            }}
+          >
+            <Spinner />
+          </View>
+        ) : (
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={styles.scrollViewContent}
+          >
+            {topHotels.map((item, index) => (
+              <View style={styles.column} key={index}>
+                <Image style={styles.topImage} source={img} />
+                <Text
+                  style={{
+                    position: "absolute",
+                    top: 10,
+                    left: 15,
+                    color: "black",
+                    fontSize: 12,
+                    backgroundColor: "white",
+                    paddingHorizontal: 5,
+                    paddingVertical: 2,
+                    borderRadius: 6,
+                  }}
+                >
+                  {item.ratings} {startIcon}
+                </Text>
+                <View>
+                  <Text style={styles.topTitle}>{item.hotel_name}</Text>
+                  <Text style={styles.topLocation}>
+                    {locationIcon} {item.city_name_en}, {item.country_trans}
+                  </Text>
+                </View>
+              </View>
+            ))}
+          </ScrollView>
+        )}
       </View>
       <Text style={styles.header}>Recomendation Hotels</Text>
       <View style={styles.container}>
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={styles.scrollViewContent}
-        >
-          {hotelDummy.map((item, index) => (
-            <View style={styles.column} key={index}>
-              <Image style={styles.image} source={item.image} />
-              <Text style={styles.title}>{item.title}</Text>
-            </View>
-          ))}
-        </ScrollView>
+        {loadingPopularHotels ? (
+          <View
+            style={{
+              flex: 1,
+              justifyContent: loadingTopHotels ? "center" : "flex-start",
+              alignItems: "center",
+            }}
+          >
+            <Spinner />
+          </View>
+        ) : (
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={styles.scrollViewContent}
+          >
+            {popularHotels.map((item, index) => (
+              <View style={styles.column} key={index}>
+                <Image style={styles.image} source={img} />
+                <Text style={styles.title}>{item.hotel_name}</Text>
+              </View>
+            ))}
+          </ScrollView>
+        )}
       </View>
     </View>
   );
