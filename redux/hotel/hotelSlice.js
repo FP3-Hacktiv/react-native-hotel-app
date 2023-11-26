@@ -10,7 +10,7 @@ import {
 
 const initialState = {
   listHotels: [],
-  isLoading: false,
+  isLoading: true,
   error: null,
   user: null,
   location: null,
