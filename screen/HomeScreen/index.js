@@ -180,7 +180,7 @@ export default HomeScreen = ({ navigation }) => {
               {searchIcon}
             </Button>
           </View>
-          <Hotels />
+          <Hotels navigation={navigation} />
           <City navigation={navigation} />
         </ScrollView>
       )}
