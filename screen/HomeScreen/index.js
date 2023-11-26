@@ -2,13 +2,13 @@ import { Button, Spinner, Text, View, ScrollView } from "native-base";
 import { useDispatch } from "react-redux";
 import { getLocation } from "../../redux/hotel/hotelAction";
 import { useEffect, useState } from "react";
-import Hotels from "../../components/home/Hotels";
 import Headers from "../../components/Headers";
 import { Alert, Modal, StyleSheet, TextInput } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import City from "../../components/home/City";
 import {Calendar, LocaleConfig} from 'react-native-calendars';
 import darkColors from "react-native-elements/dist/config/colorsDark";
+import Hotels from "../../components/home/Hotels";
 
 export default HomeScreen = ({ navigation }) => {
   const [cities, setCities] = useState([]);
@@ -119,7 +119,7 @@ export default HomeScreen = ({ navigation }) => {
             }}  borderRadius={8}>{searchIcon}</Button>
           </View>
           <Hotels />
-          <City />
+          <City navigation={navigation} />
         </ScrollView>
       )}
     </View>
@@ -136,7 +136,7 @@ const styles = StyleSheet.create({
   },
   textInput: {
     marginLeft: 5,
-    width: 'auto',
+    width: "auto",
     height: 40,
     borderColor: "#fafafa",
     borderWidth: 1,
@@ -144,7 +144,7 @@ const styles = StyleSheet.create({
     color: "#010101",
     borderRadius: 8,
     backgroundColor: "#fafafa",
-    marginBottom:5
+    marginBottom: 5,
   },
   modalContainer: {
     flex: 1,

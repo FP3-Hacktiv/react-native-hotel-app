@@ -32,7 +32,7 @@ function MyStack() {
       <Stack.Screen
         name="ListHotel"
         component={ListHotel}
-        options={{ headerShown: false }}
+        options={{ title: "List Hotel" }}
       />
       <Stack.Screen name="Booking" component={BookingScreen} />
     </Stack.Navigator>

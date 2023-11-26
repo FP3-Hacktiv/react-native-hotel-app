@@ -9,11 +9,12 @@ import {
 } from "./hotelAction";
 
 const initialState = {
-  hotels: [],
+  listHotels: [],
   isLoading: false,
   error: null,
   user: null,
   location: null,
+  locationUser: null,
   booked: [],
 };
 
@@ -62,6 +63,7 @@ const hotelSlice = createSlice({
     builder.addCase(getHotelByLocation.fulfilled, (state, { payload }) => {
       state.isLoading = false;
       state.error = null;
+      state.listHotels = payload.result;
     });
     builder.addCase(getDestinationId.pending, (state) => {
       state.isLoading = false;
@@ -107,8 +109,7 @@ const hotelSlice = createSlice({
     builder.addCase(getLocationUser.fulfilled, (state, { payload }) => {
       state.isLoading = false;
       state.error = null;
-      console.log(payload);
-      state.location = payload;
+      state.locationUser = payload[0].City;
     });
   },
 });
