@@ -67,7 +67,7 @@ export default HomeScreen = ({ navigation }) => {
               placeholder="search"
               value="Search Your Destination or Hotel"
             ></TextInput>
-            <View style={{flexDirection:'row', alignItems:'center', justifyContent:'space-around'}}>
+            <View style={{flexDirection:'row', alignItems:'center', justifyContent:'space-evenly'}}>
             <Button style={{marginVertical:10, backgroundColor:'white'}} variant={darkColors} title="Open Calendar" onPress={() => setModalVisible(true)} >{calendar}</Button>
             <Text  style={{marginVertical:10,marginRight:10, paddingHorizontal:30,paddingVertical:5, backgroundColor:'white'}}>{selected ? `${selected}` : 'Check in Date'}</Text>
             <Button style={{marginVertical:10, backgroundColor:'white'}} variant={darkColors} title="Open Calendar" onPress={() => setOutVisible(true)} >{calendar}</Button>
@@ -80,17 +80,17 @@ export default HomeScreen = ({ navigation }) => {
                   setModalVisible(false);
                 }}
               >
-                <View style={styles.modalContainer}>
-                  <View style={styles.modalContent}>
-                    <Calendar
-                      onDayPress={onDayPress}
-                      markedDates={{
-                        [selected]: { selected: true, disableTouchEvent: true, selectedDotColor: 'orange' },
-                      }}
-                    />
-                    <Button title="Close Calendar" onPress={() => setModalVisible(false)}>Finish</Button>
-                  </View>
-                </View>
+              <View style={styles.modalContainer}>
+              <View style={styles.modalContent}>
+                <Calendar
+                  onDayPress={onDayPress}
+                  markedDates={{
+                    [selected]: { selected: true, disableTouchEvent: true, selectedDotColor: 'orange' },
+                  }}
+                />
+                <Button title="Close Calendar" onPress={() => setModalVisible(false)}>Finish</Button>
+              </View>
+              </View>
               </Modal>
               <Modal
                 animationType="slide"
@@ -101,16 +101,16 @@ export default HomeScreen = ({ navigation }) => {
                 }}
               >
                 <View style={styles.modalContainer}>
-                  <View style={styles.modalContent}>
-                    <Calendar
-                      onDayPress={onCheckout}
-                      markedDates={{
-                        [checkOut]: { selected: true, disableTouchEvent: true, selectedDotColor: 'orange' },
-                      }}
-                    />
-                    <Button title="Close Calendar" onPress={() => setOutVisible(false)}>Finish</Button>
-                  </View>
+                <View style={styles.modalContent}>
+                  <Calendar
+                    onDayPress={onCheckout}
+                    markedDates={{
+                      [checkOut]: { selected: true, disableTouchEvent: true, selectedDotColor: 'orange' },
+                    }}
+                  />
+                  <Button title="Close Calendar" onPress={() => setOutVisible(false)}>Finish</Button>
                 </View>
+              </View>
               </Modal>
             </View>
             <Button style={{
@@ -128,9 +128,6 @@ export default HomeScreen = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   input: {
-    // flexDirection: "row",
-    // alignItems: "center",
-    // justifyContent: "space-evenly",
     marginVertical: 10,
     paddingRight: 4,
   },

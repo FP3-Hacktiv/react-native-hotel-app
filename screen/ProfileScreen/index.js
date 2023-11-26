@@ -129,7 +129,7 @@ const ProfilePage = () => {
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Support</Text>
           <Text style={styles.item}>Terms & Privacy</Text>
-          <Text style={[styles.item, { color: "red" }]}>Log Out</Text>
+          <Text style={[styles.item, { color: "red" }]} >Log Out</Text>
         </View>
       </ScrollView>
     </KeyboardAvoidingView>
@@ -141,6 +141,7 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     padding: 16,
     justifyContent: "center",
+    marginVertical:15
   },
   section: {
     backgroundColor: "#fff",

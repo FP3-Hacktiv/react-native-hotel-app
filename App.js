@@ -15,7 +15,6 @@ import DetailScreen from "./screen/DetailScreen";
 import ListHotel from "./screen/ListHotel";
 import { LoginScreen } from "./screen/LoginScreen";
 import LandingPage from "./screen/LandingScreen";
-import { StatusBar } from "expo-status-bar";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -41,6 +40,7 @@ function MyStack() {
 
 function MyTabs() {
   const { user } = useSelector((state) => state.hotels);
+  console.log('ini',user)
 
   return (
     <NativeBaseProvider>
