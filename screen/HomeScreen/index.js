@@ -4,19 +4,31 @@ import { getLocation } from "../../redux/hotel/hotelAction";
 import { useEffect, useState } from "react";
 import Hotels from "../../components/home/Hotels";
 import Headers from "../../components/Headers";
-import { StyleSheet, TextInput } from "react-native";
+import { Alert, Modal, StyleSheet, TextInput } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import City from "../../components/home/City";
-import DatePicker from "react-native-date-picker";
+import {Calendar, LocaleConfig} from 'react-native-calendars';
 import darkColors from "react-native-elements/dist/config/colorsDark";
 
 export default HomeScreen = ({ navigation }) => {
   const [cities, setCities] = useState([]);
   const [loading, setLoading] = useState(true);
   const searchIcon = <Icon name="search" size={20} color="#fafafa" />;
-  const [date, setDate] = useState(new Date())
-  const [open, setOpen] = useState(false)
-
+  const [selected, setSelected] = useState('');
+  const [checkOut, setCheckOut] = useState('');
+  const [modalVisible, setModalVisible] = useState(false);
+  const [ outVisible, setOutVisible] = useState(false);
+  const calendar = <Icon name="calendar" size={10} color="black" />;
+  const onDayPress = (day) => {
+    setSelected(day.dateString);
+  };
+  const onCheckout = (day) => {
+    if (new Date(day.dateString) >= new Date(selected)) {
+      setCheckOut(day.dateString);
+    }else{
+      Alert.alert('Waktu Invalid');
+    }
+  };
   const dispatch = useDispatch();
 
   const handleGetCities = async () => {
@@ -56,11 +68,54 @@ export default HomeScreen = ({ navigation }) => {
               value="Search Your Destination or Hotel"
             ></TextInput>
             <View style={{flexDirection:'row', alignItems:'center', justifyContent:'space-around'}}>
-              <Button style={{marginVertical:10, width:200, backgroundColor:'white'}} onPress={() => setOpen(true)} variant={darkColors}>Check In Date</Button>
-              <Button style={{marginVertical:10, width:200, backgroundColor:'white'}} onPress={() => setOpen(true)} variant={darkColors}>Check In Date</Button>
+            <Button style={{marginVertical:10, backgroundColor:'white'}} variant={darkColors} title="Open Calendar" onPress={() => setModalVisible(true)} >{calendar}</Button>
+            <Text  style={{marginVertical:10,marginRight:10, paddingHorizontal:30,paddingVertical:5, backgroundColor:'white'}}>{selected ? `${selected}` : 'Check in Date'}</Text>
+            <Button style={{marginVertical:10, backgroundColor:'white'}} variant={darkColors} title="Open Calendar" onPress={() => setOutVisible(true)} >{calendar}</Button>
+            <Text  style={{marginVertical:10, paddingHorizontal:30,paddingVertical:5, backgroundColor:'white'}}>{checkOut ? `${checkOut}` : 'Check out Date'}</Text>
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={modalVisible}
+                onRequestClose={() => {
+                  setModalVisible(false);
+                }}
+              >
+                <View style={styles.modalContainer}>
+                  <View style={styles.modalContent}>
+                    <Calendar
+                      onDayPress={onDayPress}
+                      markedDates={{
+                        [selected]: { selected: true, disableTouchEvent: true, selectedDotColor: 'orange' },
+                      }}
+                    />
+                    <Button title="Close Calendar" onPress={() => setModalVisible(false)}>Finish</Button>
+                  </View>
+                </View>
+              </Modal>
+              <Modal
+                animationType="slide"
+                transparent={true}
+                visible={outVisible}
+                onRequestClose={() => {
+                  setOutVisible(false);
+                }}
+              >
+                <View style={styles.modalContainer}>
+                  <View style={styles.modalContent}>
+                    <Calendar
+                      onDayPress={onCheckout}
+                      markedDates={{
+                        [checkOut]: { selected: true, disableTouchEvent: true, selectedDotColor: 'orange' },
+                      }}
+                    />
+                    <Button title="Close Calendar" onPress={() => setOutVisible(false)}>Finish</Button>
+                  </View>
+                </View>
+              </Modal>
             </View>
             <Button style={{
-              backgroundColor:'#689ff1'
+              backgroundColor:'#689ff1',
+              marginVertical:5
             }}  borderRadius={8}>{searchIcon}</Button>
           </View>
           <Hotels />
@@ -90,5 +145,17 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     backgroundColor: "#fafafa",
     marginBottom:5
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  modalContent: {
+    backgroundColor: 'white',
+    padding: 20,
+    borderRadius: 10,
+    elevation: 5,
   },
 });
