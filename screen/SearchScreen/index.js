@@ -31,6 +31,8 @@ function Search({ navigation }) {
   // const { listHotels } = useSelector((state) => state.hotels);
 
   const handlerGetHotel = async () => {
+    setHotels([]);
+    setLoading(true);
     try {
       const { payload } = await dispatch(
         getDestinationId({
