@@ -1,4 +1,4 @@
-import { Button, Spinner, Text, View, ScrollView } from "native-base";
+import { Button, Spinner, Text, View, ScrollView, useToast } from "native-base";
 import { useDispatch } from "react-redux";
 import { getLocation } from "../../redux/hotel/hotelAction";
 import { useEffect, useState } from "react";
@@ -17,6 +17,7 @@ export default HomeScreen = ({ navigation }) => {
   const searchIcon = <Icon name="search" size={20} color="#fafafa" />;
   const [selected, setSelected] = useState("");
   const [checkOut, setCheckOut] = useState("");
+  const [querySearch, setQuerySearch] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
   const [outVisible, setOutVisible] = useState(false);
   const calendar = <Icon name="calendar" size={10} color="black" />;
@@ -31,6 +32,31 @@ export default HomeScreen = ({ navigation }) => {
     }
   };
   const dispatch = useDispatch();
+  const toast = useToast();
+
+  const validateAndNavigate = () => {
+    if (!querySearch || !selected || !checkOut) {
+      showFormErrorToast();
+    } else {
+      navigateToSearch();
+    }
+  };
+
+  const showFormErrorToast = () => {
+    return toast.show({
+      title: "Please Fill All The Form",
+      placement: "top",
+      variant: "top-accent",
+    });
+  };
+
+  const navigateToSearch = () => {
+    navigation.navigate("Search", {
+      querySearch,
+      checkIn: selected,
+      checkOut,
+    });
+  };
 
   const handleGetCities = async () => {
     try {
@@ -65,8 +91,8 @@ export default HomeScreen = ({ navigation }) => {
           <View style={styles.input}>
             <TextInput
               style={styles.textInput}
-              placeholder="search"
-              value="Search Your Destination or Hotel"
+              placeholder="Search"
+              onChangeText={(text) => setQuerySearch(text)}
             ></TextInput>
             <View
               style={{
@@ -168,11 +194,12 @@ export default HomeScreen = ({ navigation }) => {
                 marginVertical: 5,
               }}
               borderRadius={8}
+              onPress={validateAndNavigate}
             >
               {searchIcon}
             </Button>
           </View>
-          <HotelPage/>
+          <HotelPage navigation={navigation} />
           <City navigation={navigation} />
         </ScrollView>
       )}

@@ -12,18 +12,17 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import img from "./../../assets/image/hotel.jpg";
 
-const HotelPage = () => {
+const HotelPage = ({ navigation }) => {
   const startIcon = <Icon name="star-o" size={10} color="black" />;
   const locationIcon = (
     <IconIon name="location-outline" size={15} color="black" />
   );
   const dispatch = useDispatch();
-  const { locationUser } = useSelector((state) => state.hotels);
+  const { locationUser, isLoading } = useSelector((state) => state.hotels);
   const [topHotels, setTopHotels] = useState([]);
   const [popularHotels, setPopularHotels] = useState([]);
   const [loadingTopHotels, setLoadingTopHotels] = useState(true);
   const [loadingPopularHotels, setLoadingPopularHotels] = useState(true);
-
   const handleScreen = async () => {
     const { payload } = await dispatch(
       getDestinationId({ cityName: locationUser })
@@ -62,10 +61,10 @@ const HotelPage = () => {
           contentContainerStyle={styles.scrollViewContent}
         >
           {destinationDummy.map((item, index) => (
-            <View style={styles.column} key={index}>
+            <Pressable style={styles.column} key={index}>
               <Image style={styles.image} source={item.image} />
               <Text style={styles.title}>{item.title}</Text>
-            </View>
+            </Pressable>
           ))}
         </ScrollView>
       </View>
@@ -88,7 +87,15 @@ const HotelPage = () => {
             contentContainerStyle={styles.scrollViewContent}
           >
             {topHotels.map((item, index) => (
-              <Pressable style={styles.column} key={index}>
+              <Pressable
+                onPress={() =>
+                  navigation.navigate("Detail", {
+                    hotel: item,
+                  })
+                }
+                style={styles.column}
+                key={index}
+              >
                 <Image style={styles.topImage} source={img} />
                 <Text
                   style={{
@@ -135,7 +142,15 @@ const HotelPage = () => {
             contentContainerStyle={styles.scrollViewContent}
           >
             {popularHotels.map((item, index) => (
-              <Pressable style={styles.column} key={index}>
+              <Pressable
+                onPress={() =>
+                  navigation.navigate("Detail", {
+                    hotel: item,
+                  })
+                }
+                style={styles.column}
+                key={index}
+              >
                 <Image style={styles.image} source={img} />
                 <Text style={styles.titleRecom}>{item.hotel_name}</Text>
               </Pressable>

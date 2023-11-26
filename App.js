@@ -59,23 +59,24 @@ function MyTabs() {
           name="Search"
           component={Search}
           options={{
-            headerShown: false,
+            // headerShown: false,
             tabBarIcon: ({ color, size }) => (
               <Icon type="feather" name="search" color={color} />
             ),
           }}
         />
-        <Tab.Screen
-          name="Booking History"
-          component={BookingHistoryScreen}
-          options={{
-            headerShown: false,
-            tabBarIcon: ({ color, size }) => (
-              <Icon type="feather" name="book" color={color} />
-            ),
-          }}
-        />
         {user ? (
+          <>
+          <Tab.Screen
+            name="Booking History"
+            component={BookingHistoryScreen}
+            options={{
+              headerShown: false,
+              tabBarIcon: ({ color, size }) => (
+                <Icon type="feather" name="book" color={color} />
+              ),
+            }}
+          />
           <Tab.Screen
             name="Profile"
             component={ProfileScreen}
@@ -86,6 +87,7 @@ function MyTabs() {
               ),
             }}
           />
+          </>
           ) : (
           <Tab.Screen
             name="Login"
