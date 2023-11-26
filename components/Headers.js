@@ -3,7 +3,6 @@ import { TextInput } from "react-native";
 import { View, Text, StyleSheet } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import IconIon from "react-native-vector-icons/Ionicons";
-import * as Location from "expo-location";
 import { useDispatch, useSelector } from "react-redux";
 import { getLocationUser } from "../redux/hotel/hotelAction";
 import { Spinner } from "native-base";
@@ -17,25 +16,6 @@ const Headers = () => {
   const { isLoading, locationUser } = useSelector((state) => state.hotels);
   const [date, setDate] = useState(new Date(1598051730000));
   const dispatch = useDispatch();
-  console.log(locationUser);
-
-  useEffect(() => {
-    (async () => {
-      let { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== "granted") {
-        setErrorMsg("Permission to access location was denied");
-        return;
-      }
-
-      let { coords } = await Location.getCurrentPositionAsync({});
-      await dispatch(
-        getLocationUser({
-          latitude: coords.latitude,
-          longitude: coords.longitude,
-        })
-      );
-    })();
-  }, []);
 
   return (
     <View style={styles.container}>

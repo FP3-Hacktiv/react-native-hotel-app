@@ -10,7 +10,7 @@ import {
 
 const initialState = {
   listHotels: [],
-  isLoading: false,
+  isLoading: true,
   error: null,
   user: null,
   location: null,
@@ -107,9 +107,9 @@ const hotelSlice = createSlice({
       state.error = payload;
     });
     builder.addCase(getLocationUser.fulfilled, (state, { payload }) => {
+      state.locationUser = payload[0].City;
       state.isLoading = false;
       state.error = null;
-      state.locationUser = payload[0].City;
     });
   },
 });

@@ -5,19 +5,18 @@ import { useEffect, useState } from "react";
 import Headers from "../../components/Headers";
 import { Alert, Modal, StyleSheet, TextInput } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
-import City from "../../components/home/City";
-import {Calendar, LocaleConfig} from 'react-native-calendars';
+import { Calendar, LocaleConfig } from "react-native-calendars";
 import darkColors from "react-native-elements/dist/config/colorsDark";
-import Hotels from "../../components/home/Hotels";
+import City from "./../../components/Home/City";
 
 export default HomeScreen = ({ navigation }) => {
   const [cities, setCities] = useState([]);
   const [loading, setLoading] = useState(true);
   const searchIcon = <Icon name="search" size={20} color="#fafafa" />;
-  const [selected, setSelected] = useState('');
-  const [checkOut, setCheckOut] = useState('');
+  const [selected, setSelected] = useState("");
+  const [checkOut, setCheckOut] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
-  const [ outVisible, setOutVisible] = useState(false);
+  const [outVisible, setOutVisible] = useState(false);
   const calendar = <Icon name="calendar" size={10} color="black" />;
   const onDayPress = (day) => {
     setSelected(day.dateString);
@@ -25,8 +24,8 @@ export default HomeScreen = ({ navigation }) => {
   const onCheckout = (day) => {
     if (new Date(day.dateString) >= new Date(selected)) {
       setCheckOut(day.dateString);
-    }else{
-      Alert.alert('Waktu Invalid');
+    } else {
+      Alert.alert("Waktu Invalid");
     }
   };
   const dispatch = useDispatch();
@@ -67,12 +66,51 @@ export default HomeScreen = ({ navigation }) => {
               placeholder="search"
               value="Search Your Destination or Hotel"
             ></TextInput>
-            <View style={{flexDirection:'row', alignItems:'center', justifyContent:'space-evenly'}}>
-            <Button style={{marginVertical:10, backgroundColor:'white'}} variant={darkColors} title="Open Calendar" onPress={() => setModalVisible(true)} >{calendar}</Button>
-            <Text  style={{marginVertical:10,marginRight:10, paddingHorizontal:30,paddingVertical:5, backgroundColor:'white'}}>{selected ? `${selected}` : 'Check in Date'}</Text>
-            <Button style={{marginVertical:10, backgroundColor:'white'}} variant={darkColors} title="Open Calendar" onPress={() => setOutVisible(true)} >{calendar}</Button>
-            <Text  style={{marginVertical:10, paddingHorizontal:30,paddingVertical:5, backgroundColor:'white'}}>{checkOut ? `${checkOut}` : 'Check out Date'}</Text>
-            <Modal
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "space-around",
+              }}
+            >
+              <Button
+                style={{ marginVertical: 10, backgroundColor: "white" }}
+                variant={darkColors}
+                title="Open Calendar"
+                onPress={() => setModalVisible(true)}
+              >
+                {calendar}
+              </Button>
+              <Text
+                style={{
+                  marginVertical: 10,
+                  marginRight: 10,
+                  paddingHorizontal: 30,
+                  paddingVertical: 5,
+                  backgroundColor: "white",
+                }}
+              >
+                {selected ? `${selected}` : "Check in Date"}
+              </Text>
+              <Button
+                style={{ marginVertical: 10, backgroundColor: "white" }}
+                variant={darkColors}
+                title="Open Calendar"
+                onPress={() => setOutVisible(true)}
+              >
+                {calendar}
+              </Button>
+              <Text
+                style={{
+                  marginVertical: 10,
+                  paddingHorizontal: 30,
+                  paddingVertical: 5,
+                  backgroundColor: "white",
+                }}
+              >
+                {checkOut ? `${checkOut}` : "Check out Date"}
+              </Text>
+              <Modal
                 animationType="slide"
                 transparent={true}
                 visible={modalVisible}
@@ -80,17 +118,26 @@ export default HomeScreen = ({ navigation }) => {
                   setModalVisible(false);
                 }}
               >
-              <View style={styles.modalContainer}>
-              <View style={styles.modalContent}>
-                <Calendar
-                  onDayPress={onDayPress}
-                  markedDates={{
-                    [selected]: { selected: true, disableTouchEvent: true, selectedDotColor: 'orange' },
-                  }}
-                />
-                <Button title="Close Calendar" onPress={() => setModalVisible(false)}>Finish</Button>
-              </View>
-              </View>
+                <View style={styles.modalContainer}>
+                  <View style={styles.modalContent}>
+                    <Calendar
+                      onDayPress={onDayPress}
+                      markedDates={{
+                        [selected]: {
+                          selected: true,
+                          disableTouchEvent: true,
+                          selectedDotColor: "orange",
+                        },
+                      }}
+                    />
+                    <Button
+                      title="Close Calendar"
+                      onPress={() => setModalVisible(false)}
+                    >
+                      Finish
+                    </Button>
+                  </View>
+                </View>
               </Modal>
               <Modal
                 animationType="slide"
@@ -113,10 +160,15 @@ export default HomeScreen = ({ navigation }) => {
               </View>
               </Modal>
             </View>
-            <Button style={{
-              backgroundColor:'#689ff1',
-              marginVertical:5
-            }}  borderRadius={8}>{searchIcon}</Button>
+            <Button
+              style={{
+                backgroundColor: "#689ff1",
+                marginVertical: 5,
+              }}
+              borderRadius={8}
+            >
+              {searchIcon}
+            </Button>
           </View>
           <Hotels />
           <City navigation={navigation} />
@@ -145,12 +197,12 @@ const styles = StyleSheet.create({
   },
   modalContainer: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
   modalContent: {
-    backgroundColor: 'white',
+    backgroundColor: "white",
     padding: 20,
     borderRadius: 10,
     elevation: 5,

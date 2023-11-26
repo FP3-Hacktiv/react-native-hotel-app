@@ -86,7 +86,15 @@ export const getDestinationId = createAsyncThunk(
 export const getHotelByLocation = createAsyncThunk(
   "getHotels",
   async (
-    { dest_id, arrival_date, departure_date, guest_qty, room_qty, offset = 0 },
+    {
+      dest_id,
+      arrival_date,
+      departure_date,
+      guest_qty,
+      room_qty,
+      order_by,
+      offset = 0,
+    },
     { rejectWithValue }
   ) => {
     try {
@@ -98,7 +106,7 @@ export const getHotelByLocation = createAsyncThunk(
           guest_qty: guest_qty ? guest_qty : 1,
           dest_ids: dest_id,
           room_qty: room_qty ? room_qty : 1,
-          order_by: "RECOMMENDED",
+          order_by: order_by ? order_by : "",
           search_type: "city",
         },
       });
