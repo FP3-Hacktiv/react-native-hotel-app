@@ -28,7 +28,7 @@ function Search({ navigation }) {
   const { querySearch, checkIn, checkOut } = route.params;
   const dispatch = useDispatch();
   const [hotels, setHotels] = useState([]);
-  const { listHotels } = useSelector((state) => state.hotels);
+  // const { listHotels } = useSelector((state) => state.hotels);
 
   const handlerGetHotel = async () => {
     try {
@@ -37,6 +37,7 @@ function Search({ navigation }) {
           cityName: querySearch,
         })
       );
+
       const response = await dispatch(
         getHotelByLocation({
           dest_id: payload[0].dest_id,
@@ -46,7 +47,7 @@ function Search({ navigation }) {
         })
       );
 
-      setHotels(listHotels);
+      setHotels(response.payload.result);
 
       const newHotels = response.payload.result;
 
