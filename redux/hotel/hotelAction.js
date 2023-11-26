@@ -68,12 +68,9 @@ export const getDestinationId = createAsyncThunk(
           languageCode: "id",
         },
       });
+      console.log(response.data);
       const dest_id = response.data.filter((item) => {
-        return (
-          item.dest_type === "city" &&
-          item.cc1 === "id" &&
-          item.name === cityName
-        );
+        return item.cc1 === "id" && item.name === cityName;
       });
       return dest_id;
     } catch (error) {

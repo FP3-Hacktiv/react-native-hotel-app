@@ -59,7 +59,7 @@ function MyTabs() {
           name="Search"
           component={Search}
           options={{
-            headerShown: false,
+            // headerShown: false,
             tabBarIcon: ({ color, size }) => (
               <Icon type="feather" name="search" color={color} />
             ),
