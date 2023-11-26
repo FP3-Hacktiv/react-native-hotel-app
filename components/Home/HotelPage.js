@@ -12,7 +12,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import img from "./../../assets/image/hotel.jpg";
 
-const Hotels = () => {
+const HotelPage = () => {
   const startIcon = <Icon name="star-o" size={10} color="black" />;
   const locationIcon = (
     <IconIon name="location-outline" size={15} color="black" />
@@ -103,7 +103,7 @@ const Hotels = () => {
                     borderRadius: 6,
                   }}
                 >
-                  {item.ratings} {startIcon}
+                  {item.ratings||'4.0'} {startIcon}
                 </Text>
                 <View>
                   <Text style={styles.topTitle}>{item.hotel_name}</Text>
@@ -137,7 +137,7 @@ const Hotels = () => {
             {popularHotels.map((item, index) => (
               <Pressable style={styles.column} key={index}>
                 <Image style={styles.image} source={img} />
-                <Text style={styles.title}>{item.hotel_name}</Text>
+                <Text style={styles.titleRecom}>{item.hotel_name}</Text>
               </Pressable>
             ))}
           </ScrollView>
@@ -176,9 +176,17 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 16,
     fontWeight: "bold",
-    textAlign: "justify",
+    textAlign: "left",
+    width:100,
+  },
+  titleRecom: {
+    fontSize: 16,
+    fontWeight: "bold",
+    textAlign: "left",
+    width:130,
   },
   topTitle: {
+    width:150,
     fontSize: 16,
     fontWeight: "bold",
   },
@@ -194,4 +202,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Hotels;
+export default HotelPage;

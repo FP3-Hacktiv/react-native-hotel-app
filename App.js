@@ -86,7 +86,7 @@ function MyTabs() {
               ),
             }}
           />
-        ) : (
+          ) : (
           <Tab.Screen
             name="Login"
             component={LoginScreen}
@@ -97,7 +97,7 @@ function MyTabs() {
               ),
             }}
           />
-        )}
+          )}
       </Tab.Navigator>
     </NativeBaseProvider>
   );

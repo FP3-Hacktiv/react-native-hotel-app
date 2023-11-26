@@ -8,6 +8,8 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import { Calendar, LocaleConfig } from "react-native-calendars";
 import darkColors from "react-native-elements/dist/config/colorsDark";
 import City from "./../../components/Home/City";
+import HotelPage from "../../components/Home/HotelPage";
+
 
 export default HomeScreen = ({ navigation }) => {
   const [cities, setCities] = useState([]);
@@ -170,7 +172,7 @@ export default HomeScreen = ({ navigation }) => {
               {searchIcon}
             </Button>
           </View>
-          <Hotels />
+          <HotelPage/>
           <City navigation={navigation} />
         </ScrollView>
       )}
