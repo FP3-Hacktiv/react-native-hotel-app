@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useRoute } from "@react-navigation/native";
-import { useDispatch, useSelector } from "react-redux"; // Import the useSelector hook
+import { useDispatch, useSelector } from "react-redux";
+import { Icon } from "react-native-elements";
 import {
   getDestinationId,
   getHotelByLocation,
@@ -17,7 +18,10 @@ import {
   Spinner,
   ScrollView,
   Button,
+  useToast,
 } from "native-base";
+import { Pressable } from "react-native";
+import { toggleBookHotel } from "../../redux/hotel/hotelSlice";
 
 function ListHotel({ navigation }) {
   const [loading, setLoading] = useState(true);
@@ -28,7 +32,29 @@ function ListHotel({ navigation }) {
   const { cityName } = route.params;
   const dispatch = useDispatch();
   const [hotels, setHotels] = useState([]);
-  const { listHotels } = useSelector((state) => state.hotels);
+  const { booked } = useSelector((state) => state.hotels);
+
+  const isHotelBookmarked = (hotel_id) => {
+    return booked?.some((item) => item.hotel_id === hotel_id);
+  };
+  const toast = useToast();
+
+  const handleBookMarked = async (hotel) => {
+    const { hotel_id, hotel_name, address, price_breakdown } = hotel;
+    console.log("Pressed");
+    await dispatch(
+      toggleBookHotel(
+        (hotel = { hotel_id, hotel_name, address, price_breakdown })
+      )
+    );
+    return toast.show({
+      title: isHotelBookmarked(hotel.hotel_id)
+        ? "Hotel removed from bookmarks"
+        : "Hotel added to bookmarks",
+      placement: "top",
+      variant: "top-accent",
+    });
+  };
 
   const handlerGetHotel = async () => {
     try {
@@ -41,7 +67,7 @@ function ListHotel({ navigation }) {
         getHotelByLocation({ dest_id: payload[0].dest_id, offset })
       );
 
-      setHotels(listHotels);
+      setHotels(response.payload.result);
 
       const newHotels = response.payload.result;
 
@@ -140,23 +166,34 @@ function ListHotel({ navigation }) {
                           alt="image"
                         />
                       </AspectRatio>
-                      <Center
-                        bg="violet.500"
-                        _dark={{
-                          bg: "violet.400",
-                        }}
-                        _text={{
-                          color: "warmGray.50",
-                          fontWeight: "700",
-                          fontSize: "xs",
-                        }}
-                        position="absolute"
-                        bottom="0"
-                        px="3"
-                        py="1.5"
-                      >
-                        Photos
-                      </Center>
+                      <Pressable onPress={() => handleBookMarked(item)}>
+                        <Center
+                          bg="violet.500"
+                          _dark={{
+                            bg: "violet.400",
+                          }}
+                          _text={{
+                            color: "warmGray.50",
+                            fontWeight: "700",
+                            fontSize: "xs",
+                          }}
+                          position="absolute"
+                          bottom="0"
+                          px="3"
+                          py="1.5"
+                        >
+                          {isHotelBookmarked(item.hotel_id) ? (
+                            <Icon
+                              type="feather"
+                              name="heart"
+                              solid
+                              color="white"
+                            />
+                          ) : (
+                            <Icon type="feather" name="book" color="white" />
+                          )}
+                        </Center>
+                      </Pressable>
                     </Box>
                     <Box p="4" space={3}>
                       <Box space={2}>

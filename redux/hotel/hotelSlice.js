@@ -22,22 +22,17 @@ const hotelSlice = createSlice({
   name: "hotels",
   initialState,
   reducers: {
-    getLocationFailure: (state, action) => {
-      state.error = action.payload.message || "Network Error";
-    },
-    bookHotel: (state, { payload }) => {
-      state.booked.push(payload);
-    },
-    removeHotel: (state, { payload }) => {
-      state.booked = state.booked.filter((hotel) => hotel.id !== payload);
-    },
-    updateHotel: (state, { payload }) => {
-      state.booked = state.booked.map((hotel) => {
-        if (hotel.id === payload.id) {
-          return payload;
-        }
-        return hotel;
-      });
+    toggleBookHotel: (state, action) => {
+      const hotel = action.payload;
+      const existingBookingIndex = state.booked.findIndex(
+        (booking) => booking === hotel.hotel_id
+      );
+
+      if (existingBookingIndex !== -1) {
+        state.booked.splice(existingBookingIndex, 1);
+      } else {
+        state.booked.push(hotel);
+      }
     },
   },
   extraReducers: (builder) => {
@@ -63,7 +58,6 @@ const hotelSlice = createSlice({
     builder.addCase(getHotelByLocation.fulfilled, (state, { payload }) => {
       state.isLoading = false;
       state.error = null;
-      state.listHotels = payload.result;
     });
     builder.addCase(getDestinationId.pending, (state) => {
       state.isLoading = false;
@@ -114,5 +108,5 @@ const hotelSlice = createSlice({
   },
 });
 
-export const { bookHotel, removeHotel, updateHotel } = hotelSlice.actions;
+export const { toggleBookHotel } = hotelSlice.actions;
 export default hotelSlice.reducer;

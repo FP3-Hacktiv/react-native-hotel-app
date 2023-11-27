@@ -1,11 +1,11 @@
 import React from "react";
-import { Image } from "react-native";
+import { Button, Image, Pressable } from "react-native";
 import { ScrollView } from "react-native";
 import { View, Text, StyleSheet } from "react-native";
 import { useSelector } from "react-redux";
 import hotel from "../../assets/image/hotel.jpg";
 
-const BookingHistoryPage = () => {
+const BookmarkScreen = () => {
   const { user } = useSelector((state) => state.hotels);
   const today = new Date();
   const year = today.getFullYear();
@@ -21,11 +21,12 @@ const BookingHistoryPage = () => {
   const bookingHistory = [
     { id: 1, title: "Pemesanan 1", status: "Sedang dibooking" },
     { id: 2, title: "Pemesanan 2", status: "Pernah dibooking" },
-    { id: 3, title: "Pemesanan 1", status: "Pernah dibooking" },
-    { id: 4, title: "Pemesanan 2", status: "Pernah dibooking" },
-    { id: 4, title: "Pemesanan 2", status: "Sedang dibooking" },
+    { id: 3, title: "Pemesanan 3", status: "Pernah dibooking" },
+    { id: 4, title: "Pemesanan 4", status: "Pernah dibooking" },
+    { id: 4, title: "Pemesanan 5", status: "Sedang dibooking" },
   ];
-
+  const leftColumnData = bookingHistory.filter((_, index) => index % 2 === 0);
+  const rightColumnData = bookingHistory.filter((_, index) => index % 2 !== 0);
   const sedangDibookingCount = bookingHistory.filter(
     (item) => item.status === "Sedang dibooking"
   ).length;
@@ -37,25 +38,27 @@ const BookingHistoryPage = () => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.headerText}>Username : {user.username}</Text>
+        <Text style={styles.headerText}>Username : {user?(user.username):''}</Text>
         <Text style={styles.dateText}>
           {onDay} {formattedDate}
         </Text>
       </View>
-      <View style={styles.categoryContainer}>
-        <View style={styles.categoryBox}>
-          <Text style={styles.categoryText}>Sedang dibooking</Text>
-          <Text style={styles.categoryText}>{sedangDibookingCount}</Text>
-        </View>
-        <View style={styles.categoryBox}>
-          <Text style={styles.categoryText}>Pernah dibooking</Text>
-          <Text style={styles.categoryText}>{pernahDibookingCount}</Text>
+      <View style={{
+        flexDirection:'row',
+        justifyContent:'space-between'
+      }}>
+        <Text style={styles.historyHeader}>My Wishes</Text>
+        <View style={{
+          marginBottom:10,
+        }}>
+          <Button title="Add"/>
         </View>
       </View>
-      <Text style={styles.historyHeader}>History</Text>
-      <ScrollView style={styles.historyContainer}>
-        {bookingHistory.map((item) => (
-          <View key={item.id} style={styles.historyItem}>
+      <ScrollView>
+        <View style={styles.historyContainer}>
+        <View style={styles.leftColumn}>
+        {leftColumnData.map((item) => (
+          <View key={item.id}>
             <Image
               style={{
                 width: 180,
@@ -65,11 +68,31 @@ const BookingHistoryPage = () => {
               source={hotel}
             />
             <View>
-              <Text style={styles.title}>{item.title}</Text>
-              <Text style={styles.status}>{item.status}</Text>
+              <Text>{item.title}</Text>
+              <Text>{item.status}</Text>
             </View>
           </View>
         ))}
+        </View>
+        <View style={styles.rightColumn}>
+        {rightColumnData.map((item) => (
+          <View key={item.id}>
+            <Image
+              style={{
+                width: 180,
+                height: 120,
+                marginRight: 10,
+              }}
+              source={hotel}
+            />
+            <View>
+              <Text>{item.title}</Text>
+              <Text>{item.status}</Text>
+            </View>
+          </View>
+        ))}
+        </View>
+        </View>
       </ScrollView>
     </View>
   );
@@ -115,32 +138,29 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "normal",
   },
-  historyContainer: {},
+  historyContainer: {
+    flexDirection:'row',
+    justifyContent:'space-between'
+  },
   historyItem: {
     padding: 10,
     marginBottom: 10,
     backgroundColor: "#f0f0f0",
     borderRadius: 8,
-    flexDirection: "row",
-    justifyContent: "flex-start",
+    paddingHorizontal: 16,
   },
   historyHeader: {
     fontSize: 20,
-    paddingBottom: 10,
+    // marginBottom:10,
   },
-  historyHeader:{
-    fontSize:20,
-    paddingBottom:10,
+  leftColumn: {
+    marginRight: 5,
+    flex:1
   },
-  title:{
-    fontSize:16,
-    fontWeight:'600',
-
-  },
-  status:{
-    fontSize:12,
-    fontWeight:'350'
+  rightColumn: {
+    marginLeft: 5,
+    flex: 1,
   },
 });
 
-export default BookingHistoryPage;
+export default BookmarkScreen;
