@@ -81,7 +81,8 @@ const HotelDetailScreen = ({ route }) => {
             alignItems: 'flex-start',
             paddingHorizontal:10,
             paddingVertical:15,
-            borderRadius: 8, }}>
+            borderRadius: 8,
+            marginBottom:10, }}>
               <Text style={{ fontSize: 16, fontWeight: "bold" }}>
                 {review.title}
               </Text>

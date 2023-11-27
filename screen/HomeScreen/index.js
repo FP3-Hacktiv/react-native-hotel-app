@@ -10,7 +10,6 @@ import darkColors from "react-native-elements/dist/config/colorsDark";
 import City from "./../../components/Home/City";
 import HotelPage from "../../components/Home/HotelPage";
 
-
 export default HomeScreen = ({ navigation }) => {
   const [cities, setCities] = useState([]);
   const [loading, setLoading] = useState(true);

@@ -59,8 +59,8 @@ const onDay = days[today.getDay()]
               marginRight:10
             }} source={hotel}/>
             <View>
-              <Text>{item.title}</Text>
-              <Text>{item.status}</Text>
+              <Text style={styles.title}>{item.title}</Text>
+              <Text style={styles.status}>{item.status}</Text>
             </View>
           </View>
         ))}
@@ -122,7 +122,16 @@ const styles = StyleSheet.create({
   historyHeader:{
     fontSize:20,
     paddingBottom:10,
-  }
+  },
+  title:{
+    fontSize:16,
+    fontWeight:'600',
+
+  },
+  status:{
+    fontSize:12,
+    fontWeight:'350'
+  },
 });
 
 export default BookingHistoryPage;

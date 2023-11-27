@@ -167,8 +167,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    paddingVertical: 10,
-    marginBottom: 15,
+    paddingVertical: 5,
   },
   column: {
     flex: 1,
@@ -195,10 +194,11 @@ const styles = StyleSheet.create({
     width:100,
   },
   titleRecom: {
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: "bold",
     textAlign: "left",
     width:130,
+    height:65
   },
   topTitle: {
     width:150,
