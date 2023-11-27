@@ -5,7 +5,7 @@ import { View, Text, StyleSheet } from "react-native";
 import { useSelector } from "react-redux";
 import hotel from "../../assets/image/hotel.jpg";
 
-const BookingHistoryPage = () => {
+const BookmarkScreen = () => {
   const { user } = useSelector((state) => state.hotels);
   const today = new Date();
   const year = today.getFullYear();
@@ -130,4 +130,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default BookingHistoryPage;
+export default BookmarkScreen;

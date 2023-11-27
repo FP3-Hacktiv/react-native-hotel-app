@@ -15,6 +15,7 @@ import DetailScreen from "./screen/DetailScreen";
 import ListHotel from "./screen/ListHotel";
 import { LoginScreen } from "./screen/LoginScreen";
 import LandingPage from "./screen/LandingScreen";
+import BookmarkScreen from "./screen/BookmarkScreen";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -40,7 +41,6 @@ function MyStack() {
 
 function MyTabs() {
   const { user } = useSelector((state) => state.hotels);
-  console.log('ini',user)
 
   return (
     <NativeBaseProvider>
@@ -67,28 +67,38 @@ function MyTabs() {
         />
         {user ? (
           <>
-          <Tab.Screen
-            name="Booking History"
-            component={BookingHistoryScreen}
-            options={{
-              headerShown: false,
-              tabBarIcon: ({ color, size }) => (
-                <Icon type="feather" name="book" color={color} />
-              ),
-            }}
-          />
-          <Tab.Screen
-            name="Profile"
-            component={ProfileScreen}
-            options={{
-              headerShown: false,
-              tabBarIcon: ({ color, size }) => (
-                <Icon type="feather" name="user" color={color} />
-              ),
-            }}
-          />
+            <Tab.Screen
+              name="Booking History"
+              component={BookingHistoryScreen}
+              options={{
+                headerShown: false,
+                tabBarIcon: ({ color, size }) => (
+                  <Icon type="feather" name="book" color={color} />
+                ),
+              }}
+            />
+            <Tab.Screen
+              name="Bookmark"
+              component={BookmarkScreen}
+              options={{
+                headerShown: false,
+                tabBarIcon: ({ color, size }) => (
+                  <Icon type="feather" name="book" color={color} />
+                ),
+              }}
+            />
+            <Tab.Screen
+              name="Profile"
+              component={ProfileScreen}
+              options={{
+                headerShown: false,
+                tabBarIcon: ({ color, size }) => (
+                  <Icon type="feather" name="user" color={color} />
+                ),
+              }}
+            />
           </>
-          ) : (
+        ) : (
           <Tab.Screen
             name="Login"
             component={LoginScreen}
@@ -99,7 +109,7 @@ function MyTabs() {
               ),
             }}
           />
-          )}
+        )}
       </Tab.Navigator>
     </NativeBaseProvider>
   );
