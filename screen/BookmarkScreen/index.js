@@ -6,13 +6,12 @@ import { useSelector } from "react-redux";
 import hotel from "../../assets/image/hotel.jpg";
 
 const BookingHistoryPage = () => {
-  const { user } = useSelector((state) => state.hotels);
+  const { user, bookmarks } = useSelector((state) => state.hotels);
   const today = new Date();
   const year = today.getFullYear();
   const month = today.getMonth() + 1;
   const day = today.getDate();
   const days = ["Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu"];
-  const { booked } = useSelector((state) => state.hotels);
 
   const formattedDate = `${day < 10 ? "0" + day : day}-${
     month < 10 ? "0" + month : month
@@ -22,40 +21,38 @@ const BookingHistoryPage = () => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.headerText}>Username : {user.username}</Text>
+        <Text style={styles.headerText}>
+          Username : {user ? user.username : "Guest"}
+        </Text>
         <Text style={styles.dateText}>
           {onDay} {formattedDate}
         </Text>
       </View>
-      {/* <View style={styles.categoryContainer}>
-        <View style={styles.categoryBox}>
-          <Text style={styles.categoryText}>Sedang dibooking</Text>
-          <Text style={styles.categoryText}>{sedangDibookingCount}</Text>
+      <Text style={styles.historyHeader}>Bookmark</Text>
+      {!bookmarks ? (
+        <View>
+          <Text style={styles.header}>No Bookmark</Text>
         </View>
-        <View style={styles.categoryBox}>
-          <Text style={styles.categoryText}>Pernah dibooking</Text>
-          <Text style={styles.categoryText}>{pernahDibookingCount}</Text>
-        </View>
-      </View> */}
-      <Text style={styles.historyHeader}>History</Text>
-      <ScrollView style={styles.historyContainer}>
-        {booked.map((item) => (
-          <View key={item.hotel_id} style={styles.historyItem}>
-            <Image
-              style={{
-                width: 180,
-                height: 120,
-                marginRight: 10,
-              }}
-              source={hotel}
-            />
-            <View>
-              <Text>{item.hotel_name}</Text>
-              <Text>{item.address}</Text>
+      ) : (
+        <ScrollView style={styles.historyContainer}>
+          {bookmarks.map((item) => (
+            <View key={item.hotel_id} style={styles.historyItem}>
+              <Image
+                style={{
+                  width: 180,
+                  height: 120,
+                  marginRight: 10,
+                }}
+                source={hotel}
+              />
+              <View>
+                <Text>{item.hotel_name}</Text>
+                <Text>{item.address}</Text>
+              </View>
             </View>
-          </View>
-        ))}
-      </ScrollView>
+          ))}
+        </ScrollView>
+      )}
     </View>
   );
 };

@@ -15,6 +15,7 @@ const initialState = {
   user: null,
   location: null,
   locationUser: null,
+  bookmarks: [],
   booked: [],
 };
 
@@ -22,22 +23,19 @@ const hotelSlice = createSlice({
   name: "hotels",
   initialState,
   reducers: {
-    getLocationFailure: (state, action) => {
-      state.error = action.payload.message || "Network Error";
+    toggleBookmark: (state, action) => {
+      const hotel = action.payload;
+      const index = state.bookmarks.indexOf(hotel.hotel_id);
+      console.log("index", index);
+      if (index === -1) {
+        state.bookmarks.push(hotel);
+      } else {
+        state.bookmarks.splice(index, 1);
+      }
     },
-    bookHotel: (state, { payload }) => {
-      state.booked.push(payload);
-    },
-    removeHotel: (state, { payload }) => {
-      state.booked = state.booked.filter((hotel) => hotel.id !== payload);
-    },
-    updateHotel: (state, { payload }) => {
-      state.booked = state.booked.map((hotel) => {
-        if (hotel.id === payload.id) {
-          return payload;
-        }
-        return hotel;
-      });
+    bookHotel: (state, action) => {
+      const hotel = action.payload;
+      state.booked.push(hotel);
     },
   },
   extraReducers: (builder) => {
@@ -114,5 +112,5 @@ const hotelSlice = createSlice({
   },
 });
 
-export const { bookHotel, removeHotel, updateHotel } = hotelSlice.actions;
+export const { toggleBookmark, bookHotel } = hotelSlice.actions;
 export default hotelSlice.reducer;

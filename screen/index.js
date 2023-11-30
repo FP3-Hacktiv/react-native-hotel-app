@@ -6,3 +6,4 @@ export * from "./LoginScreen";
 export * from "./ProfileScreen";
 export * from "./Search";
 export * from "./ListHotel";
+export * from "./BookmarkScreen";

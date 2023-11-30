@@ -28,43 +28,6 @@ function Search({ navigation }) {
   const { querySearch, checkIn, checkOut } = route.params;
   const dispatch = useDispatch();
   const [hotels, setHotels] = useState([]);
-  // const { listHotels } = useSelector((state) => state.hotels);
-
-  const handlerGetHotel = async () => {
-    setHotels([]);
-    setLoading(true);
-    try {
-      const { payload } = await dispatch(
-        getDestinationId({
-          cityName: querySearch,
-        })
-      );
-
-      const response = await dispatch(
-        getHotelByLocation({
-          dest_id: payload[0].dest_id,
-          arrival_date: checkIn,
-          departure_date: checkOut,
-          offset,
-        })
-      );
-
-      setHotels(response.payload.result);
-
-      const newHotels = response.payload.result;
-
-      if (newHotels.length === 0) {
-        setEndReached(true);
-      }
-
-      setHotels((prevHotels) => [...prevHotels, ...newHotels]);
-    } catch (error) {
-      console.error("Error fetching hotels:", error);
-    } finally {
-      setLoading(false);
-      setLoadingMore(false);
-    }
-  };
 
   const handleLoadMore = () => {
     if (!endReached) {
@@ -74,8 +37,44 @@ function Search({ navigation }) {
   };
 
   useEffect(() => {
+    const handlerGetHotel = async () => {
+      setHotels([]);
+      setLoading(true);
+      try {
+        const { payload } = await dispatch(
+          getDestinationId({
+            cityName: querySearch,
+          })
+        );
+
+        const response = await dispatch(
+          getHotelByLocation({
+            dest_id: payload[0].dest_id,
+            arrival_date: checkIn,
+            departure_date: checkOut,
+            offset,
+          })
+        );
+
+        setHotels(response.payload.result);
+
+        const newHotels = response.payload.result;
+
+        if (newHotels.length === 0) {
+          setEndReached(true);
+        }
+
+        setHotels((prevHotels) => [...prevHotels, ...newHotels]);
+      } catch (error) {
+        console.error("Error fetching hotels:", error);
+      } finally {
+        setLoading(false);
+        setLoadingMore(false);
+      }
+    };
+
     handlerGetHotel();
-  }, [offset, querySearch, checkIn, checkOut]);
+  }, [offset]);
 
   return (
     <NativeBaseProvider>
@@ -148,23 +147,36 @@ function Search({ navigation }) {
                           alt="image"
                         />
                       </AspectRatio>
-                      <Center
-                        bg="violet.500"
-                        _dark={{
-                          bg: "violet.400",
-                        }}
-                        _text={{
-                          color: "warmGray.50",
-                          fontWeight: "700",
-                          fontSize: "xs",
-                        }}
-                        position="absolute"
-                        bottom="0"
-                        px="3"
-                        py="1.5"
+                      <Pressable
+                        onPress={() => !loadingBookmark && handleBookmark(item)}
                       >
-                        Photos
-                      </Center>
+                        <Center
+                          bg="violet.500"
+                          _dark={{
+                            bg: "violet.400",
+                          }}
+                          _text={{
+                            color: "warmGray.50",
+                            fontWeight: "700",
+                            fontSize: "xs",
+                          }}
+                          position="absolute"
+                          bottom="0"
+                          px="3"
+                          py="1.5"
+                        >
+                          {isHotelBookmarked(item.hotel_id) ? (
+                            <Icon
+                              type="feather"
+                              name="heart"
+                              solid
+                              color="white"
+                            />
+                          ) : (
+                            <Icon type="feather" name="book" color="white" />
+                          )}
+                        </Center>
+                      </Pressable>
                     </Box>
                     <Box p="4" space={3}>
                       <Box space={2}>
