@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useRoute } from "@react-navigation/native";
-import { useDispatch, useSelector } from "react-redux"; // Import the useSelector hook
+import { useDispatch, useSelector } from "react-redux";
+import { Icon } from "react-native-elements";
 import {
   getDestinationId,
   getHotelByLocation,
@@ -17,7 +18,10 @@ import {
   Spinner,
   ScrollView,
   Button,
+  useToast,
 } from "native-base";
+import { toggleBookmark } from "../../redux/hotel/hotelSlice";
+import { Pressable } from "react-native";
 
 function ListHotel({ navigation }) {
   const [loading, setLoading] = useState(true);
@@ -27,36 +31,10 @@ function ListHotel({ navigation }) {
   const route = useRoute();
   const { cityName } = route.params;
   const dispatch = useDispatch();
+  const toast = useToast();
   const [hotels, setHotels] = useState([]);
-  const { listHotels } = useSelector((state) => state.hotels);
-
-  const handlerGetHotel = async () => {
-    try {
-      const { payload } = await dispatch(
-        getDestinationId({
-          cityName,
-        })
-      );
-      const response = await dispatch(
-        getHotelByLocation({ dest_id: payload[0].dest_id, offset })
-      );
-
-      setHotels(listHotels);
-
-      const newHotels = response.payload.result;
-
-      if (newHotels.length === 0) {
-        setEndReached(true);
-      }
-
-      setHotels((prevHotels) => [...prevHotels, ...newHotels]);
-    } catch (error) {
-      console.error("Error fetching hotels:", error);
-    } finally {
-      setLoading(false);
-      setLoadingMore(false);
-    }
-  };
+  const [loadingBookmark, setLoadingBookmark] = useState(false);
+  const { bookmarks } = useSelector((state) => state.hotels);
 
   const handleLoadMore = () => {
     if (!endReached) {
@@ -65,7 +43,62 @@ function ListHotel({ navigation }) {
     }
   };
 
+  const handleBookmark = async (item) => {
+    try {
+      setLoadingBookmark(true);
+
+      const hotel = {
+        hotel_id: item.hotel_id,
+        name: item.hotel_name,
+        address: item.address,
+      };
+
+      await dispatch(toggleBookmark(hotel));
+      toast.show({
+        title: "Success",
+        status: "success",
+        placement: "top",
+      });
+    } catch (error) {
+      console.error("Error toggling bookmark:", error);
+    } finally {
+      setLoadingBookmark(false);
+    }
+  };
+
+  const isHotelBookmarked = (hotel_id) => {
+    return bookmarks?.some((item) => item.hotel_id === hotel_id);
+  };
+
   useEffect(() => {
+    const handlerGetHotel = async () => {
+      try {
+        const { payload } = await dispatch(
+          getDestinationId({
+            cityName,
+          })
+        );
+        const response = await dispatch(
+          getHotelByLocation({ dest_id: payload[0].dest_id, offset })
+        );
+
+        setHotels(response.payload.result);
+
+        const newHotels = response.payload.result;
+
+        if (newHotels.length === 0) {
+          setEndReached(true);
+        }
+
+        setHotels((prevHotels) => [...prevHotels, ...newHotels]);
+      } catch (error) {
+        console.error("Error fetching hotels:", error);
+      } finally {
+        setLoading(false);
+        setLoadingMore(false);
+      }
+    };
+
     handlerGetHotel();
   }, [offset]);
 
@@ -140,23 +173,36 @@ function ListHotel({ navigation }) {
                           alt="image"
                         />
                       </AspectRatio>
-                      <Center
-                        bg="violet.500"
-                        _dark={{
-                          bg: "violet.400",
-                        }}
-                        _text={{
-                          color: "warmGray.50",
-                          fontWeight: "700",
-                          fontSize: "xs",
-                        }}
-                        position="absolute"
-                        bottom="0"
-                        px="3"
-                        py="1.5"
+                      <Pressable
+                        onPress={() => !loadingBookmark && handleBookmark(item)}
                       >
-                        Photos
-                      </Center>
+                        <Center
+                          bg="violet.500"
+                          _dark={{
+                            bg: "violet.400",
+                          }}
+                          _text={{
+                            color: "warmGray.50",
+                            fontWeight: "700",
+                            fontSize: "xs",
+                          }}
+                          position="absolute"
+                          bottom="0"
+                          px="3"
+                          py="1.5"
+                        >
+                          {isHotelBookmarked(item.hotel_id) ? (
+                            <Icon
+                              type="feather"
+                              name="heart"
+                              solid
+                              color="white"
+                            />
+                          ) : (
+                            <Icon type="feather" name="book" color="white" />
+                          )}
+                        </Center>
+                      </Pressable>
                     </Box>
                     <Box p="4" space={3}>
                       <Box space={2}>

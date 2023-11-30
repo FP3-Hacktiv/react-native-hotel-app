@@ -6,14 +6,13 @@ import { useSelector } from "react-redux";
 import hotel from "../../assets/image/hotel.jpg";
 
 const BookingHistoryPage = () => {
-  const { user } = useSelector((state) => state.hotels);
+  const { user, bookmarks } = useSelector((state) => state.hotels);
   const today = new Date();
   const year = today.getFullYear();
   const month = today.getMonth() + 1;
   const day = today.getDate();
   const days = ["Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu"];
-  const { booked } = useSelector((state) => state.hotels);
-  console.log(booked)
+
   const formattedDate = `${day < 10 ? "0" + day : day}-${
     month < 10 ? "0" + month : month
   }-${year}`;
@@ -22,46 +21,41 @@ const BookingHistoryPage = () => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.headerText}>Username : {user.username}</Text>
+        <Text style={styles.headerText}>
+          Username : {user ? user.username : "Guest"}
+        </Text>
         <Text style={styles.dateText}>
           {onDay} {formattedDate}
         </Text>
       </View>
-      <Text style={styles.historyHeader}>History</Text>
-      <ScrollView style={styles.historyContainer}>
-        {booked ? (booked.map((item) => (
-          <View key={item.hotel_id} style={styles.historyItem}>
-            <Image
-              style={{
-                width: 180,
-                height: 120,
-                marginRight: 10,
-              }}
-              source={hotel}
-            />
-            <View>
-              <Text style={{
-                fontSize:20,
-                fontWeight:'500'
-              }}>{item.name}</Text>
-              <Text style={{
-                fontSize:14,
-                fontWeight:'300',
-                marginTop:5,
-              }}>{item.address}</Text>
-              <Text style={{
-                fontSize:14,
-                fontWeight:'400',
-                marginTop:5,
-              }}>Rp.{" "}{item.price}</Text>
-              
-            </View>
-          </View>
-        ))):
+      <Text style={styles.historyHeader}>Bookmark</Text>
+      {bookmarks ? (
         <View>
-          <Text>Belum ada melakukan booking</Text>  
-        </View>}
-      </ScrollView>
+          <Text style={{
+            marginLeft:'40%',
+            marginTop:'40%'
+          }}>No Bookmark</Text>
+        </View>
+      ) : (
+        <ScrollView style={styles.historyContainer}>
+          {bookmarks.map((item) => (
+            <View key={item.hotel_id} style={styles.historyItem}>
+              <Image
+                style={{
+                  width: 180,
+                  height: 120,
+                  marginRight: 10,
+                }}
+                source={hotel}
+              />
+              <View>
+                <Text>{item.hotel_name}</Text>
+                <Text>{item.address}</Text>
+              </View>
+            </View>
+          ))}
+        </ScrollView>
+      )}
     </View>
   );
 };

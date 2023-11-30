@@ -74,7 +74,7 @@ export const getDestinationId = createAsyncThunk(
       return dest_id;
     } catch (error) {
       console.error("Error fetching destination ID:", error);
-      return rejectWithValue(error);
+      throw error;
     }
   }
 );
