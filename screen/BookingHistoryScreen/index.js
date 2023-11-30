@@ -13,7 +13,7 @@ const BookingHistoryPage = () => {
   const day = today.getDate();
   const days = ["Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu"];
   const { booked } = useSelector((state) => state.hotels);
-
+  console.log(booked)
   const formattedDate = `${day < 10 ? "0" + day : day}-${
     month < 10 ? "0" + month : month
   }-${year}`;
@@ -27,19 +27,9 @@ const BookingHistoryPage = () => {
           {onDay} {formattedDate}
         </Text>
       </View>
-      {/* <View style={styles.categoryContainer}>
-        <View style={styles.categoryBox}>
-          <Text style={styles.categoryText}>Sedang dibooking</Text>
-          <Text style={styles.categoryText}>{sedangDibookingCount}</Text>
-        </View>
-        <View style={styles.categoryBox}>
-          <Text style={styles.categoryText}>Pernah dibooking</Text>
-          <Text style={styles.categoryText}>{pernahDibookingCount}</Text>
-        </View>
-      </View> */}
       <Text style={styles.historyHeader}>History</Text>
       <ScrollView style={styles.historyContainer}>
-        {booked.map((item) => (
+        {booked ? (booked.map((item) => (
           <View key={item.hotel_id} style={styles.historyItem}>
             <Image
               style={{
@@ -50,11 +40,27 @@ const BookingHistoryPage = () => {
               source={hotel}
             />
             <View>
-              <Text>{item.hotel_name}</Text>
-              <Text>{item.address}</Text>
+              <Text style={{
+                fontSize:20,
+                fontWeight:'500'
+              }}>{item.name}</Text>
+              <Text style={{
+                fontSize:14,
+                fontWeight:'300',
+                marginTop:5,
+              }}>{item.address}</Text>
+              <Text style={{
+                fontSize:14,
+                fontWeight:'400',
+                marginTop:5,
+              }}>Rp.{" "}{item.price}</Text>
+              
             </View>
           </View>
-        ))}
+        ))):
+        <View>
+          <Text>Belum ada melakukan booking</Text>  
+        </View>}
       </ScrollView>
     </View>
   );

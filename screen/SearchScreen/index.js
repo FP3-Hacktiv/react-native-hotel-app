@@ -88,7 +88,7 @@ function Search({ navigation }) {
           alignItems="center"
           flexDirection="row"
         >
-          <Heading color="white">Hotels in {querySearch}</Heading>
+          <Heading color="white">Hotels in {querySearch ? querySearch :'?'}</Heading>
         </Box>
         <View
           style={{

@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { View, Image, Text, StyleSheet, Pressable } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import IconIon from "react-native-vector-icons/Ionicons";
-import hotelDummy from "../../dummyData/hotelsDummy";
 import destinationDummy from "../../dummyData/destinationDummy";
 import { ScrollView, Spinner } from "native-base";
 import {

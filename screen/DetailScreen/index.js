@@ -21,6 +21,9 @@ const HotelDetailScreen = ({ route, navigation }) => {
         hotel_id: hotel.hotel_id,
         name: hotel.hotel_name,
         address: hotel.address,
+        price:hotel.price_breakdown.all_inclusive_price.toLocaleString(
+          "en-US"
+        ),
       };
       await dispatch(bookHotel(bookingHotel));
       toast.show({
@@ -30,7 +33,7 @@ const HotelDetailScreen = ({ route, navigation }) => {
       });
       navigation.navigate("HomeScreen");
     } else {
-      navigation.navigate("Loginook");
+      navigation.navigate("Login");
     }
   };
   const handleGetReviewHotel = async () => {

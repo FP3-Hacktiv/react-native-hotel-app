@@ -40,7 +40,7 @@ function MyStack() {
 }
 
 function MyTabs() {
-  const { user } = useSelector((state) => state.hotels);
+  const { user,querySearch } = useSelector((state) => state.hotels);
 
   return (
     <NativeBaseProvider>
@@ -55,6 +55,7 @@ function MyTabs() {
             ),
           }}
         />
+        {querySearch?(
         <Tab.Screen
           name="Search"
           component={Search}
@@ -65,6 +66,7 @@ function MyTabs() {
             ),
           }}
         />
+        ):<></>}
         {user ? (
           <>
             <Tab.Screen
