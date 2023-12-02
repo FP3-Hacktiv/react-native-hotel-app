@@ -61,7 +61,6 @@ const hotelSlice = createSlice({
     builder.addCase(getHotelByLocation.fulfilled, (state, { payload }) => {
       state.isLoading = false;
       state.error = null;
-      state.listHotels = payload.result;
     });
     builder.addCase(getDestinationId.pending, (state) => {
       state.isLoading = false;

@@ -40,9 +40,7 @@ const City = ({ navigation }) => {
               >
                 <View style={styles.column}>
                   <Image style={styles.image} source={img} />
-                  <Text style={styles.title}>
-                    {item.regionNames?.primaryDisplayName}
-                  </Text>
+                  <Text style={styles.title}>{item.primaryDisplayName}</Text>
                 </View>
               </Pressable>
             ))}

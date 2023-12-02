@@ -19,7 +19,7 @@ export const store = configureStore({
 });
 
 store.subscribe(() => {
-  console.log(store.getState());
+  console.log(store.getState().location);
 });
 
 export const persistor = persistStore(store);

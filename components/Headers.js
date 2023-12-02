@@ -1,10 +1,7 @@
-import { useEffect, useState } from "react";
-import { TextInput } from "react-native";
 import { View, Text, StyleSheet } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import IconIon from "react-native-vector-icons/Ionicons";
-import { useDispatch, useSelector } from "react-redux";
-import { getLocationUser } from "../redux/hotel/hotelAction";
+import { useSelector } from "react-redux";
 import { Spinner } from "native-base";
 
 const myIcon = <Icon name="bell" size={20} color="#fafafa" />;
@@ -15,8 +12,6 @@ const locationIcon = (
 const Headers = () => {
   const isLoading = useSelector((state) => state.isLoading);
   const locationUser = useSelector((state) => state.locationUser);
-  const [date, setDate] = useState(new Date(1598051730000));
-  const dispatch = useDispatch();
 
   return (
     <View style={styles.container}>
