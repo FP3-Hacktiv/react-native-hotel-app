@@ -53,7 +53,7 @@ function ListHotel({ navigation }) {
         address: item.address,
       };
 
-      await dispatch(toggleBookmark(hotel));
+      dispatch(toggleBookmark(hotel));
       toast.show({
         title: "Success",
         status: "success",

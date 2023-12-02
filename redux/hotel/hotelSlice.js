@@ -9,7 +9,6 @@ import {
 } from "./hotelAction";
 
 const initialState = {
-  listHotels: [],
   isLoading: true,
   error: null,
   user: null,
@@ -17,6 +16,7 @@ const initialState = {
   locationUser: null,
   bookmarks: [],
   booked: [],
+  profile: null,
 };
 
 const hotelSlice = createSlice({
@@ -36,6 +36,12 @@ const hotelSlice = createSlice({
     bookHotel: (state, action) => {
       const hotel = action.payload;
       state.booked.push(hotel);
+    },
+    logout: (state) => {
+      state.user = null;
+    },
+    updateProfile: (state, action) => {
+      state.profile = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -111,5 +117,6 @@ const hotelSlice = createSlice({
   },
 });
 
-export const { toggleBookmark, bookHotel } = hotelSlice.actions;
+export const { toggleBookmark, bookHotel, updateProfile, logout } =
+  hotelSlice.actions;
 export default hotelSlice.reducer;
