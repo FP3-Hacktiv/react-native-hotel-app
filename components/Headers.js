@@ -13,7 +13,8 @@ const locationIcon = (
 );
 
 const Headers = () => {
-  const { isLoading, locationUser } = useSelector((state) => state.hotels);
+  const isLoading = useSelector((state) => state.isLoading);
+  const locationUser = useSelector((state) => state.locationUser);
   const [date, setDate] = useState(new Date(1598051730000));
   const dispatch = useDispatch();
 

@@ -49,7 +49,7 @@ const hotelSlice = createSlice({
     builder.addCase(getLocation.fulfilled, (state, { payload }) => {
       state.isLoading = false;
       state.error = null;
-      state.location = payload;
+      state.location = payload.map((location) => location.regionNames);
     });
     builder.addCase(getHotelByLocation.pending, (state) => {
       state.isLoading = false;

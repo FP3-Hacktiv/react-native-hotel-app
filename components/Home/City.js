@@ -14,11 +14,8 @@ import img from "./../../assets/image/hotel.jpg";
 
 const City = ({ navigation }) => {
   const dispatch = useDispatch();
-  const { loading, location } = useSelector((state) => state.hotels);
-
-  useEffect(() => {
-    dispatch(getLocation());
-  }, []);
+  const location = useSelector((state) => state.location);
+  const loading = useSelector((state) => state.loading);
 
   return (
     <View>

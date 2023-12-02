@@ -27,7 +27,8 @@ const LandingPage = ({ setShowTabs }) => {
       }
 
       let { coords } = await Location.getCurrentPositionAsync({});
-      await dispatch(
+      console.log(coords);
+      dispatch(
         getLocationUser({
           latitude: coords.latitude,
           longitude: coords.longitude,

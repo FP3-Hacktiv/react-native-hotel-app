@@ -3,7 +3,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import { NativeBaseProvider } from "native-base";
 import { Provider, useSelector } from "react-redux";
-import store from "./redux/hotel";
+import { persistor, store } from "./redux/hotel";
 import HomeScreen from "./screen/HomeScreen";
 import Search from "./screen/SearchScreen";
 import BookingHistoryScreen from "./screen/BookingHistoryScreen";
@@ -16,6 +16,7 @@ import ListHotel from "./screen/ListHotel";
 import { LoginScreen } from "./screen/LoginScreen";
 import LandingPage from "./screen/LandingScreen";
 import BookmarkScreen from "./screen/BookmarkScreen";
+import { PersistGate } from "redux-persist/integration/react";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -40,7 +41,7 @@ function MyStack() {
 }
 
 function MyTabs() {
-  const { user } = useSelector((state) => state.hotels);
+  const user = useSelector((state) => state.user);
 
   return (
     <NativeBaseProvider>
@@ -136,10 +137,11 @@ export default function App() {
   };
   return (
     <Provider store={store}>
-      <NavigationContainer>
-        {showTabs ? <MyTabs /> : <LandingPage setShowTabs={handleShowTabs} />}
-        {/* <StatusBar /> */}
-      </NavigationContainer>
+      <PersistGate persistor={persistor}>
+        <NavigationContainer>
+          {showTabs ? <MyTabs /> : <LandingPage setShowTabs={handleShowTabs} />}
+        </NavigationContainer>
+      </PersistGate>
     </Provider>
   );
 }

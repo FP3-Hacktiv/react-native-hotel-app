@@ -17,7 +17,8 @@ const HotelPage = ({ navigation }) => {
     <IconIon name="location-outline" size={15} color="black" />
   );
   const dispatch = useDispatch();
-  const { locationUser, isLoading } = useSelector((state) => state.hotels);
+  const locationUser = useSelector((state) => state.locationUser);
+  const isLoading = useSelector((state) => state.isLoading);
   const [topHotels, setTopHotels] = useState([]);
   const [popularHotels, setPopularHotels] = useState([]);
   const [loadingTopHotels, setLoadingTopHotels] = useState(true);
@@ -109,7 +110,7 @@ const HotelPage = ({ navigation }) => {
                     borderRadius: 6,
                   }}
                 >
-                  {item.ratings||'4.0'} {startIcon}
+                  {item.ratings || "4.0"} {startIcon}
                 </Text>
                 <View>
                   <Text style={styles.topTitle}>{item.hotel_name}</Text>
@@ -191,16 +192,16 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
     textAlign: "left",
-    width:100,
+    width: 100,
   },
   titleRecom: {
     fontSize: 16,
     fontWeight: "bold",
     textAlign: "left",
-    width:130,
+    width: 130,
   },
   topTitle: {
-    width:150,
+    width: 150,
     fontSize: 16,
     fontWeight: "bold",
   },
