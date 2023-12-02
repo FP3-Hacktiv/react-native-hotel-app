@@ -34,7 +34,7 @@ function ListHotel({ navigation }) {
   const toast = useToast();
   const [hotels, setHotels] = useState([]);
   const [loadingBookmark, setLoadingBookmark] = useState(false);
-  const { bookmarks } = useSelector((state) => state.hotels);
+  const bookmarks = useSelector((state) => state.bookmarks);
 
   const handleLoadMore = () => {
     if (!endReached) {

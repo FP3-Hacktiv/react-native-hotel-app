@@ -6,7 +6,8 @@ import { useSelector } from "react-redux";
 import hotel from "../../assets/image/hotel.jpg";
 
 const BookingHistoryPage = () => {
-  const { user, bookmarks } = useSelector((state) => state.hotels);
+  const bookmarks = useSelector((state) => state.bookmarks);
+  const user = useSelector((state) => state.user);
   const today = new Date();
   const year = today.getFullYear();
   const month = today.getMonth() + 1;
