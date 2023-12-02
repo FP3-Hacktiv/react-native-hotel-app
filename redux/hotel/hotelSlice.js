@@ -9,7 +9,6 @@ import {
 } from "./hotelAction";
 
 const initialState = {
-  listHotels: [],
   isLoading: true,
   error: null,
   user: null,
@@ -17,6 +16,7 @@ const initialState = {
   locationUser: null,
   bookmarks: [],
   booked: [],
+  profile: null,
 };
 
 const hotelSlice = createSlice({
@@ -37,6 +37,12 @@ const hotelSlice = createSlice({
       const hotel = action.payload;
       state.booked.push(hotel);
     },
+    logout: (state) => {
+      state.user = null;
+    },
+    updateProfile: (state, action) => {
+      state.profile = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(getLocation.pending, (state) => {
@@ -49,7 +55,7 @@ const hotelSlice = createSlice({
     builder.addCase(getLocation.fulfilled, (state, { payload }) => {
       state.isLoading = false;
       state.error = null;
-      state.location = payload;
+      state.location = payload.map((location) => location.regionNames);
     });
     builder.addCase(getHotelByLocation.pending, (state) => {
       state.isLoading = false;
@@ -61,7 +67,6 @@ const hotelSlice = createSlice({
     builder.addCase(getHotelByLocation.fulfilled, (state, { payload }) => {
       state.isLoading = false;
       state.error = null;
-      state.listHotels = payload.result;
     });
     builder.addCase(getDestinationId.pending, (state) => {
       state.isLoading = false;
@@ -112,5 +117,6 @@ const hotelSlice = createSlice({
   },
 });
 
-export const { toggleBookmark, bookHotel } = hotelSlice.actions;
+export const { toggleBookmark, bookHotel, updateProfile, logout } =
+  hotelSlice.actions;
 export default hotelSlice.reducer;
