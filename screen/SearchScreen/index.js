@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useRoute } from "@react-navigation/native";
-import { useDispatch, useSelector } from "react-redux"; // Import the useSelector hook
+import { useDispatch, useSelector } from "react-redux";
 import {
   getDestinationId,
   getHotelByLocation,
 } from "../../redux/hotel/hotelAction";
+import { Icon } from "react-native-elements";
 import {
   Box,
   Heading,
@@ -18,6 +19,7 @@ import {
   ScrollView,
   Button,
 } from "native-base";
+import { Pressable } from "react-native";
 
 function Search({ navigation }) {
   const [loading, setLoading] = useState(true);
@@ -28,12 +30,17 @@ function Search({ navigation }) {
   const { querySearch, checkIn, checkOut } = route.params;
   const dispatch = useDispatch();
   const [hotels, setHotels] = useState([]);
+  const { bookmarks } = useSelector((state) => state.hotels);
 
   const handleLoadMore = () => {
     if (!endReached) {
       setOffset((prevOffset) => prevOffset + 1);
       setLoadingMore(true);
     }
+  };
+
+  const isHotelBookmarked = (hotel_id) => {
+    return bookmarks?.some((item) => item.hotel_id === hotel_id);
   };
 
   useEffect(() => {
@@ -88,7 +95,9 @@ function Search({ navigation }) {
           alignItems="center"
           flexDirection="row"
         >
-          <Heading color="white">Hotels in {querySearch ? querySearch :'?'}</Heading>
+          <Heading color="white">
+            Hotels in {querySearch ? querySearch : "?"}
+          </Heading>
         </Box>
         <View
           style={{

@@ -29,12 +29,16 @@ const BookingHistoryPage = () => {
         </Text>
       </View>
       <Text style={styles.historyHeader}>Bookmark</Text>
-      {bookmarks ? (
+      {!bookmarks ? (
         <View>
-          <Text style={{
-            marginLeft:'40%',
-            marginTop:'40%'
-          }}>No Bookmark</Text>
+          <Text
+            style={{
+              marginLeft: "40%",
+              marginTop: "40%",
+            }}
+          >
+            No Bookmark
+          </Text>
         </View>
       ) : (
         <ScrollView style={styles.historyContainer}>
