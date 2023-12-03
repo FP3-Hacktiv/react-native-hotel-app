@@ -19,7 +19,7 @@ export const store = configureStore({
 });
 
 store.subscribe(() => {
-  console.log(store.getState().booked);
+  console.log(store.getState());
 });
 
 export const persistor = persistStore(store);

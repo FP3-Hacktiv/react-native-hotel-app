@@ -62,10 +62,11 @@ export const getDestinationId = createAsyncThunk(
   "getDestinationId",
   async ({ cityName }, { rejectWithValue }) => {
     try {
+      console.log(cityName);
       const response = await apiInstance.get("/locations/auto-complete", {
         params: {
           text: cityName,
-          languageCode: "id",
+          languagecode: "id",
         },
       });
       const dest_id = response.data.filter((item) => {
@@ -73,8 +74,8 @@ export const getDestinationId = createAsyncThunk(
       });
       return dest_id;
     } catch (error) {
-      console.error("Error fetching destination ID:", error);
-      throw error;
+      console.error(error);
+      return rejectWithValue(error);
     }
   }
 );

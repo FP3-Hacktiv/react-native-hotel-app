@@ -1,16 +1,16 @@
 import React, { useState } from "react";
-import { View, Text, Input, Button } from "native-base";
+import { View, Text, Input, Button, useToast } from "native-base";
 import { useRoute } from "@react-navigation/native";
+import { useDispatch, useSelector } from "react-redux";
+import { bookHotel } from "../../redux/hotel/hotelSlice";
 
-const BookingScreen = () => {
+const BookingScreen = ({ navigation }) => {
   const route = useRoute();
-
-  const profile = {
-    firstName: "John",
-    lastName: "Doe",
-  };
-
-  const [name, setName] = useState(`${profile.firstName} ${profile.lastName}`);
+  const { hotel_id, hotel_name, address, price } = route.params;
+  const profile = useSelector((state) => state.profile);
+  const [name, setName] = useState(
+    profile ? `${profile.firstName} ${profile.lastName}` : ""
+  );
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const roomDetails = {
@@ -21,6 +21,27 @@ const BookingScreen = () => {
   };
 
   const totalCost = roomDetails.days * roomDetails.pricePerNight;
+  const dispatch = useDispatch();
+  const toast = useToast();
+  const handleBooking = async () => {
+    const bookingHotel = {
+      hotel_id,
+      hotel_name,
+      address,
+      price,
+      name,
+      phoneNumber,
+      // checkInDate,
+      // checkOutDate,
+    };
+    dispatch(bookHotel(bookingHotel));
+    toast.show({
+      title: "Success",
+      status: "success",
+      placement: "top",
+    });
+    navigation.navigate("HomeScreen");
+  };
 
   return (
     <View style={{ flex: 1, padding: 16, backgroundColor: "#f5f5f5" }}>
@@ -114,9 +135,8 @@ const BookingScreen = () => {
         </Text>
         <Text style={{ color: "#555" }}>Payable Amount: ${totalCost}</Text>
         <Button
-          onPress={() => {
-            console.log("Payment logic goes here");
-          }}
+          onPress={handleBooking}
+          disabled={!name || !email || !phoneNumber}
           mt={4}
           style={{ backgroundColor: "#3498db", borderRadius: 5 }}
         >
