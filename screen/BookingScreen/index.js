@@ -13,14 +13,14 @@ const BookingScreen = ({ navigation }) => {
   );
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
-  const roomDetails = {
-    days: 5,
-    roomType: "Deluxe Room",
-    numberOfPeople: 2,
-    pricePerNight: 100,
-  };
+  // const roomDetails = {
+  //   days: 5,
+  //   roomType: "Deluxe Room",
+  //   numberOfPeople: 2,
+  //   pricePerNight: 100,
+  // };
 
-  const totalCost = roomDetails.days * roomDetails.pricePerNight;
+  // const totalCost = roomDetails.days * roomDetails.pricePerNight;
   const dispatch = useDispatch();
   const toast = useToast();
   const handleBooking = async () => {
@@ -86,7 +86,7 @@ const BookingScreen = ({ navigation }) => {
         />
       </View>
 
-      <View
+      {/* <View
         style={{
           marginTop: 15,
           backgroundColor: "white",
@@ -113,7 +113,7 @@ const BookingScreen = ({ navigation }) => {
         <Text style={{ fontWeight: "bold", marginTop: 8, color: "#333" }}>
           Total Cost: ${totalCost}
         </Text>
-      </View>
+      </View> */}
 
       <View
         style={{
@@ -131,9 +131,9 @@ const BookingScreen = ({ navigation }) => {
             color: "#333",
           }}
         >
-          Payable Now
+          Total Room Cost
         </Text>
-        <Text style={{ color: "#555" }}>Payable Amount: ${totalCost}</Text>
+        <Text style={{ color: "#555" }}>Rp. {price}</Text>
         <Button
           onPress={handleBooking}
           disabled={!name || !email || !phoneNumber}
