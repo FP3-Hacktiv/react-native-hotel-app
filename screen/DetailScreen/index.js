@@ -9,29 +9,24 @@ import { bookHotel } from "../../redux/hotel/hotelSlice";
 
 const HotelDetailScreen = ({ route, navigation }) => {
   const dispatch = useDispatch();
+  const profile = useSelector((state) => state.profile);
   const { hotel } = route.params;
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
-  const { user } = useSelector((state) => state.hotels);
+  const [name, setName] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const user = useSelector((state) => state.user);
   const toast = useToast();
 
   const handleBooking = async () => {
     if (user) {
-      const bookingHotel = {
+      navigation.navigate("Booking", {
         hotel_id: hotel.hotel_id,
-        name: hotel.hotel_name,
+        hotel_name: hotel.hotel_name,
         address: hotel.address,
-        price:hotel.price_breakdown.all_inclusive_price.toLocaleString(
-          "en-US"
-        ),
-      };
-      await dispatch(bookHotel(bookingHotel));
-      toast.show({
-        title: "Success",
-        status: "success",
-        placement: "top",
+        price:
+          hotel.price_breakdown.all_inclusive_price.toLocaleString("en-US"),
       });
-      navigation.navigate("HomeScreen");
     } else {
       navigation.navigate("Login");
     }
@@ -80,14 +75,6 @@ const HotelDetailScreen = ({ route, navigation }) => {
               {hotel.address}
             </Text>
             <StarRating rating={hotel.review_score} />
-            <Text style={{ fontSize: 18, fontWeight: "bold", marginTop: 16 }}>
-              Description:
-            </Text>
-            <Text>{/* Add hotel description here */}</Text>
-            <Text style={{ fontSize: 18, fontWeight: "bold", marginTop: 16 }}>
-              Facilities:
-            </Text>
-            <Text>{/* Add hotel facilities here */}</Text>
           </View>
         </View>
         <View style={styles.containerReview}>

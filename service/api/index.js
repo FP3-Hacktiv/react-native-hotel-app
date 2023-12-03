@@ -1,6 +1,7 @@
 import axios from "axios";
 import { API_KEY, API_URL, API_HOST } from "@env";
 const url = `${API_URL}`;
+
 const apiInstance = axios.create({
   baseURL: url,
 });

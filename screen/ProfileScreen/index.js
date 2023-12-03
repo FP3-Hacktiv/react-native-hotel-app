@@ -5,6 +5,7 @@ import {
   StyleSheet,
   ScrollView,
   KeyboardAvoidingView,
+  Pressable,
 } from "react-native";
 import {
   Input,
@@ -15,27 +16,31 @@ import {
   Select,
   CheckIcon,
 } from "native-base";
+import { useDispatch, useSelector } from "react-redux";
+import { logout, updateProfile } from "../../redux/hotel/hotelSlice";
 
 const ProfilePage = () => {
-  const [firstName, setFirstName] = useState("John");
-  const [lastName, setLastName] = useState("Doe");
-  const [email, setEmail] = useState("john.doe@example.com");
-  const [gender, setGender] = useState("Male");
-  const [language, setLanguage] = useState("English");
-  const [searchHistory, setSearchHistory] = useState("");
-  const [problemReport, setProblemReport] = useState("");
-  const toast = useToast();
+  const profile = useSelector((state) => state.profile);
+  const defaultFirstName = profile?.firstName || "";
+  const defaultLastName = profile?.lastName || "";
+  const defaultEmail = profile?.email || "";
+  const defaultGender = profile?.gender || "";
 
+  const [firstName, setFirstName] = useState(defaultFirstName);
+  const [lastName, setLastName] = useState(defaultLastName);
+  const [email, setEmail] = useState(defaultEmail);
+  const [gender, setGender] = useState(defaultGender);
+
+  const toast = useToast();
+  const dispatch = useDispatch();
   const handleSave = () => {
-    console.log("Data saved:", {
+    const profileData = {
       firstName,
       lastName,
       email,
       gender,
-      language,
-      searchHistory,
-      problemReport,
-    });
+    };
+    dispatch(updateProfile(profileData));
     toast.show({
       title: "Data saved!",
       placement: "top",
@@ -43,96 +48,75 @@ const ProfilePage = () => {
     });
   };
 
+  const handleLogout = () => {
+    dispatch(logout());
+    toast.show({
+      title: "Logout Success",
+      placement: "top",
+      variant: "top-accent",
+    });
+  };
+
   return (
-    <KeyboardAvoidingView
-      style={{ flex: 1, backgroundColor: "#f0f0f0" }}
-      behavior="padding"
-    >
-      <ScrollView contentContainerStyle={styles.container}>
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>My Account</Text>
-          <FormControl>
-            <Stack space={3}>
-              <FormControl.Label>First Name</FormControl.Label>
-              <Input
-                variant="filled"
-                placeholder="Enter your first name"
-                value={firstName}
-                onChangeText={(text) => setFirstName(text)}
-              />
+    <ScrollView contentContainerStyle={styles.container}>
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>My Account</Text>
+        <FormControl>
+          <Stack space={3}>
+            <FormControl.Label>First Name</FormControl.Label>
+            <Input
+              variant="filled"
+              placeholder="Enter your first name"
+              value={firstName}
+              onChangeText={(text) => setFirstName(text)}
+            />
 
-              <FormControl.Label>Last Name</FormControl.Label>
-              <Input
-                variant="filled"
-                placeholder="Enter your last name"
-                value={lastName}
-                onChangeText={(text) => setLastName(text)}
-              />
+            <FormControl.Label>Last Name</FormControl.Label>
+            <Input
+              variant="filled"
+              placeholder="Enter your last name"
+              value={lastName}
+              onChangeText={(text) => setLastName(text)}
+            />
 
-              <FormControl.Label>Email</FormControl.Label>
-              <Input
-                variant="filled"
-                placeholder="Enter your email"
-                value={email}
-                onChangeText={(text) => setEmail(text)}
-              />
+            <FormControl.Label>Email</FormControl.Label>
+            <Input
+              variant="filled"
+              placeholder="Enter your email"
+              value={email}
+              onChangeText={(text) => setEmail(text)}
+            />
 
-              <FormControl.Label>Gender</FormControl.Label>
-              <Select
-                variant="filled"
-                selectedValue={gender}
-                minWidth={200}
-                placeholder="Select gender"
-                onValueChange={(itemValue) => setGender(itemValue)}
-              >
-                <Select.Item label="Male" value="Male" />
-                <Select.Item label="Female" value="Female" />
-              </Select>
+            <FormControl.Label>Gender</FormControl.Label>
+            <Select
+              variant="filled"
+              selectedValue={gender}
+              minWidth={200}
+              placeholder="Select gender"
+              onValueChange={(itemValue) => setGender(itemValue)}
+            >
+              <Select.Item label="Male" value="Male" />
+              <Select.Item label="Female" value="Female" />
+            </Select>
+          </Stack>
+        </FormControl>
+        <Button
+          onPress={handleSave}
+          colorScheme="primary"
+          style={{ marginTop: 15 }}
+        >
+          Save
+        </Button>
+      </View>
 
-              <FormControl.Label>Language</FormControl.Label>
-              <Select
-                variant="filled"
-                selectedValue={language}
-                minWidth={200}
-                placeholder="Select language"
-                onValueChange={(itemValue) => setLanguage(itemValue)}
-              >
-                <Select.Item label="English" value="English" />
-              </Select>
-
-              <FormControl.Label>Search History</FormControl.Label>
-              <Input
-                variant="filled"
-                placeholder="Enter your search history"
-                value={searchHistory}
-                onChangeText={(text) => setSearchHistory(text)}
-              />
-
-              <FormControl.Label>Report a Problem</FormControl.Label>
-              <Input
-                variant="filled"
-                placeholder="Enter your problem report"
-                value={problemReport}
-                onChangeText={(text) => setProblemReport(text)}
-              />
-            </Stack>
-          </FormControl>
-          <Button
-            onPress={handleSave}
-            colorScheme="primary"
-            style={{ marginTop: 15 }}
-          >
-            Save
-          </Button>
-        </View>
-
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Support</Text>
-          <Text style={styles.item}>Terms & Privacy</Text>
-          <Text style={[styles.item, { color: "red" }]} >Log Out</Text>
-        </View>
-      </ScrollView>
-    </KeyboardAvoidingView>
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>Support</Text>
+        <Text style={styles.item}>Terms & Privacy</Text>
+        <Pressable onPress={handleLogout}>
+          <Text style={[styles.item, { color: "red" }]}>Log Out</Text>
+        </Pressable>
+      </View>
+    </ScrollView>
   );
 };
 
@@ -141,7 +125,7 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     padding: 16,
     justifyContent: "center",
-    marginVertical:15
+    marginVertical: 15,
   },
   section: {
     backgroundColor: "#fff",
