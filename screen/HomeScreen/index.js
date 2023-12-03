@@ -108,6 +108,7 @@ export default HomeScreen = ({ navigation }) => {
                 onPress={() => setModalVisible(true)}
               >
                 {calendar}
+                
               </Button>
               <Text
                 style={{

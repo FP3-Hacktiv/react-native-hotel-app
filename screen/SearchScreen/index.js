@@ -17,6 +17,7 @@ import {
   Spinner,
   ScrollView,
   Button,
+  Presssable
 } from "native-base";
 
 function Search({ navigation }) {

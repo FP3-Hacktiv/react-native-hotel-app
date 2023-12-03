@@ -55,7 +55,6 @@ function MyTabs() {
             ),
           }}
         />
-        {querySearch?(
         <Tab.Screen
           name="Search"
           component={Search}
@@ -66,7 +65,6 @@ function MyTabs() {
             ),
           }}
         />
-        ):<></>}
         {user ? (
           <>
             <Tab.Screen
