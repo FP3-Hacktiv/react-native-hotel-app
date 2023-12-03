@@ -6,7 +6,8 @@ import { useSelector } from "react-redux";
 import hotel from "../../assets/image/hotel.jpg";
 
 const BookingHistoryPage = () => {
-  const { user, bookmarks } = useSelector((state) => state.hotels);
+  const bookmarks = useSelector((state) => state.bookmarks);
+  const user = useSelector((state) => state.user);
   const today = new Date();
   const year = today.getFullYear();
   const month = today.getMonth() + 1;
@@ -29,12 +30,16 @@ const BookingHistoryPage = () => {
         </Text>
       </View>
       <Text style={styles.historyHeader}>Bookmark</Text>
-      {bookmarks ? (
+      {!bookmarks ? (
         <View>
-          <Text style={{
-            marginLeft:'40%',
-            marginTop:'40%'
-          }}>No Bookmark</Text>
+          <Text
+            style={{
+              marginLeft: "40%",
+              marginTop: "40%",
+            }}
+          >
+            No Bookmark
+          </Text>
         </View>
       ) : (
         <ScrollView style={styles.historyContainer}>

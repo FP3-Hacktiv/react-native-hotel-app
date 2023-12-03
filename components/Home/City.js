@@ -1,24 +1,12 @@
-import React, { useEffect } from "react";
-import {
-  View,
-  Image,
-  Text,
-  StyleSheet,
-  Dimensions,
-  Pressable,
-} from "react-native";
+import { View, Image, Text, StyleSheet, Pressable } from "react-native";
 import { ScrollView, Spinner } from "native-base";
 import { useDispatch, useSelector } from "react-redux";
-import { getLocation } from "../../redux/hotel/hotelAction";
 import img from "./../../assets/image/hotel.jpg";
 
 const City = ({ navigation }) => {
   const dispatch = useDispatch();
-  const { loading, location } = useSelector((state) => state.hotels);
-
-  useEffect(() => {
-    dispatch(getLocation());
-  }, []);
+  const location = useSelector((state) => state.location);
+  const loading = useSelector((state) => state.loading);
 
   return (
     <View>
@@ -36,16 +24,14 @@ const City = ({ navigation }) => {
               <Pressable
                 onPress={() =>
                   navigation.navigate("ListHotel", {
-                    cityName: item.regionNames.primaryDisplayName,
+                    cityName: item.primaryDisplayName,
                   })
                 }
                 key={index}
               >
                 <View style={styles.column}>
                   <Image style={styles.image} source={img} />
-                  <Text style={styles.title}>
-                    {item.regionNames?.primaryDisplayName}
-                  </Text>
+                  <Text style={styles.title}>{item.primaryDisplayName}</Text>
                 </View>
               </Pressable>
             ))}

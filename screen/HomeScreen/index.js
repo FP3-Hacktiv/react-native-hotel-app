@@ -10,7 +10,6 @@ import darkColors from "react-native-elements/dist/config/colorsDark";
 import City from "./../../components/Home/City";
 import HotelPage from "../../components/Home/HotelPage";
 
-
 export default HomeScreen = ({ navigation }) => {
   const [cities, setCities] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -60,8 +59,9 @@ export default HomeScreen = ({ navigation }) => {
 
   const handleGetCities = async () => {
     try {
-      const { payload } = await dispatch(getLocation());
-      setCities(payload);
+      const response = await dispatch(getLocation());
+      console.log(response);
+      setCities(response);
       setLoading(false);
     } catch (error) {
       setLoading(false);
@@ -177,16 +177,25 @@ export default HomeScreen = ({ navigation }) => {
                 }}
               >
                 <View style={styles.modalContainer}>
-                <View style={styles.modalContent}>
-                  <Calendar
-                    onDayPress={onCheckout}
-                    markedDates={{
-                      [checkOut]: { selected: true, disableTouchEvent: true, selectedDotColor: 'orange' },
-                    }}
-                  />
-                  <Button title="Close Calendar" onPress={() => setOutVisible(false)}>Finish</Button>
+                  <View style={styles.modalContent}>
+                    <Calendar
+                      onDayPress={onCheckout}
+                      markedDates={{
+                        [checkOut]: {
+                          selected: true,
+                          disableTouchEvent: true,
+                          selectedDotColor: "orange",
+                        },
+                      }}
+                    />
+                    <Button
+                      title="Close Calendar"
+                      onPress={() => setOutVisible(false)}
+                    >
+                      Finish
+                    </Button>
+                  </View>
                 </View>
-              </View>
               </Modal>
             </View>
             <Button

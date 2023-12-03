@@ -34,7 +34,7 @@ function ListHotel({ navigation }) {
   const toast = useToast();
   const [hotels, setHotels] = useState([]);
   const [loadingBookmark, setLoadingBookmark] = useState(false);
-  const { bookmarks } = useSelector((state) => state.hotels);
+  const bookmarks = useSelector((state) => state.bookmarks);
 
   const handleLoadMore = () => {
     if (!endReached) {
@@ -53,7 +53,7 @@ function ListHotel({ navigation }) {
         address: item.address,
       };
 
-      await dispatch(toggleBookmark(hotel));
+      dispatch(toggleBookmark(hotel));
       toast.show({
         title: "Success",
         status: "success",
