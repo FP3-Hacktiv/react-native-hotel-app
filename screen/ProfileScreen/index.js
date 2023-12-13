@@ -21,7 +21,6 @@ import { logout, updateProfile } from "../../redux/hotel/hotelSlice";
 
 const ProfilePage = () => {
   const profile = useSelector((state) => state.profile);
-  console.log(profile);
   const defaultFirstName = profile?.firstName || "";
   const defaultLastName = profile?.lastName || "";
   const defaultEmail = profile?.email || "";

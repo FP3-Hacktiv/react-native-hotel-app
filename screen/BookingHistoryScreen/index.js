@@ -23,7 +23,7 @@ const BookingHistoryPage = () => {
     <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.headerText}>
-          Name : {profile.firstName ? profile.firstName : user.username}
+          Name : {profile ? profile.firstName : user.username}
         </Text>
         <Text style={styles.dateText}>
           {onDay} {formattedDate}

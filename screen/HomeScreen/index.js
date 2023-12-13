@@ -60,7 +60,6 @@ export default HomeScreen = ({ navigation }) => {
   const handleGetCities = async () => {
     try {
       const response = await dispatch(getLocation());
-      console.log(response);
       setCities(response);
       setLoading(false);
     } catch (error) {

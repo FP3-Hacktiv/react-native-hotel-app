@@ -20,24 +20,13 @@ const HotelDetailScreen = ({ route, navigation }) => {
 
   const handleBooking = async () => {
     if (user) {
-      const bookingHotel = {
+      navigation.navigate("Booking", {
         hotel_id: hotel.hotel_id,
         hotel_name: hotel.hotel_name,
         address: hotel.address,
         price:
           hotel.price_breakdown.all_inclusive_price.toLocaleString("en-US"),
-        name: profile ? `${profile.firstName} ${profile.lastName}` : name,
-        phone: phoneNumber,
-        checkInDate,
-        checkOutDate,
-      };
-      dispatch(bookHotel(bookingHotel));
-      toast.show({
-        title: "Success",
-        status: "success",
-        placement: "top",
       });
-      navigation.navigate("HomeScreen");
     } else {
       navigation.navigate("Login");
     }
