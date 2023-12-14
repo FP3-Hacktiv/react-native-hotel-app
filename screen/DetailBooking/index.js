@@ -7,7 +7,7 @@ import { getReviewList } from "../../redux/hotel/hotelAction";
 import { StyleSheet } from "react-native";
 import { bookHotel } from "../../redux/hotel/hotelSlice";
 
-const HotelDetailScreen = ({ route, navigation }) => {
+const HotelDetailBooking = ({ route, navigation }) => {
   const dispatch = useDispatch();
   const profile = useSelector((state) => state.profile);
   const { hotel } = route.params;
@@ -24,10 +24,8 @@ const HotelDetailScreen = ({ route, navigation }) => {
         hotel_id: hotel.hotel_id,
         hotel_name: hotel.hotel_name,
         address: hotel.address,
-        main_photo_url : hotel.main_photo_url,
-        review_score:hotel.review_score,
         price:
-          hotel.price_breakdown.all_inclusive_price.toLocaleString("en-US"),
+          hotel.price.toLocaleString("en-US"),
       });
     } else {
       navigation.navigate("Login");
@@ -68,7 +66,7 @@ const HotelDetailScreen = ({ route, navigation }) => {
               <Text style={styles.title}>{hotel.hotel_name}</Text>
               <Text style={styles.righttitle}>
                 Rp.{" "}
-                {hotel.price_breakdown.all_inclusive_price.toLocaleString(
+                {hotel.price.toLocaleString(
                   "en-US"
                 )}
               </Text>
@@ -85,47 +83,24 @@ const HotelDetailScreen = ({ route, navigation }) => {
         </View>
         <View style={styles.containerReview}>
           <Text style={{ fontSize: 18, fontWeight: "bold", marginTop: 16 }}>
-            Reviews:
+            Booked on:
           </Text>
-          <Text>Number of Reviews: {hotel.review_nr}</Text>
-          {loading ? (
-            <Text>Loading reviews...</Text>
-          ) : (
-            reviews.map((review) => (
-              <View
-                key={review.review_id}
-                style={{
-                  marginTop: 8,
-                  width: "100%",
-                  height: "auto",
-                  backgroundColor: "lightgrey",
-                  justifyContent: "center",
-                  alignItems: "flex-start",
-                  paddingHorizontal: 10,
-                  paddingVertical: 15,
-                  borderRadius: 8,
-                }}
-              >
-                <Text style={{ fontSize: 16, fontWeight: "bold" }}>
-                  {review.title}
-                </Text>
-                <Text>{review.pros}</Text>
-                <Text>{review.cons}</Text>
-              </View>
-            ))
-          )}
+          <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-around",
+            alignItems: "center",
+            backgroundColor: "white",
+            padding: 0,
+            borderRadius: 10,
+            marginBottom:15,
+          }}
+          >
+            <Text>CheckIn Date: {hotel.selected}</Text>
+            <Text>Checkout Date: {hotel.checkOut}</Text>
+          </View>
         </View>
       </ScrollView>
-      <Button
-        small
-        primary
-        style={{ marginBottom: 16 }}
-        onPress={() => {
-          handleBooking();
-        }}
-      >
-        <Text>Book Now</Text>
-      </Button>
     </View>
   );
 };
@@ -153,6 +128,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     paddingHorizontal: 10,
     marginBottom: 10,
+    paddingBottom:10,
   },
   title: {
     fontSize: 24,
@@ -169,4 +145,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default HotelDetailScreen;
+export default HotelDetailBooking;
