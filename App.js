@@ -17,6 +17,7 @@ import { LoginScreen } from "./screen/LoginScreen";
 import LandingPage from "./screen/LandingScreen";
 import BookmarkScreen from "./screen/BookmarkScreen";
 import { PersistGate } from "redux-persist/integration/react";
+import DetailBooking from "./screen/DetailBooking";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -30,6 +31,7 @@ function MyStack() {
         options={{ headerShown: false }}
       />
       <Stack.Screen name="Detail" component={DetailScreen} />
+      <Stack.Screen name="DetailBooking" component={DetailBooking} />
       <Stack.Screen
         name="ListHotel"
         component={ListHotel}

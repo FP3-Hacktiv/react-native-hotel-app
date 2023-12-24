@@ -18,6 +18,7 @@ import {
   Spinner,
   ScrollView,
   Button,
+  Presssable
 } from "native-base";
 import { Pressable } from "react-native";
 

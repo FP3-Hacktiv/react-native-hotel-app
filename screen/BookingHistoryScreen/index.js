@@ -4,8 +4,9 @@ import { ScrollView } from "react-native";
 import { View, Text, StyleSheet } from "react-native";
 import { useSelector } from "react-redux";
 import hotel from "../../assets/image/hotel.jpg";
+import { Pressable } from "native-base";
 
-const BookingHistoryPage = () => {
+const BookingHistoryPage = ({navigation}) => {
   const user = useSelector((state) => state.user);
   const profile = useSelector((state) => state.profile);
   const today = new Date();
@@ -32,50 +33,60 @@ const BookingHistoryPage = () => {
       <Text style={styles.historyHeader}>Booking History</Text>
       <ScrollView style={styles.historyContainer}>
         {booked && booked.length > 0 ? (
-          booked.map((item, index) => (
-            <View key={index} style={styles.historyItem}>
-              <Image
-                style={{
-                  width: 180,
-                  height: 120,
-                  marginRight: 10,
-                }}
-                source={hotel}
-              />
-              <View>
-                <Text
-                  style={{
-                    fontSize: 20,
-                    fontWeight: "500",
-                  }}
-                >
-                  {item.hotel_name}
-                </Text>
-                <Text
-                  style={{
-                    fontSize: 14,
-                    fontWeight: "300",
-                    marginTop: 5,
-                  }}
-                >
-                  {item.address}
-                </Text>
-                <Text
-                  style={{
-                    fontSize: 14,
-                    fontWeight: "400",
-                    marginTop: 5,
-                  }}
-                >
-                  Rp. {item.price}
-                </Text>
-              </View>
-            </View>
-          ))
-        ) : (
-          <View style={{ justifyContent: "center", alignItems: "center" }}>
-            <Text>Belum ada melakukan booking</Text>
+        booked.map((item, index) => (
+        <Pressable 
+        onPress={()=>
+          navigation.navigate("DetailBooking",{
+            hotel:item,
+          })
+          
+        }
+        key={index}
+        >
+        <View style={styles.historyItem}>
+          <Image
+            style={{
+              width: 180,
+              height: 120,
+              marginRight: 10,
+            }}
+            source={hotel}
+          />
+          <View>
+            <Text
+              style={{
+                fontSize: 20,
+                fontWeight: "500",
+              }}
+            >
+              {item.hotel_name}
+            </Text>
+            <Text
+              style={{
+                fontSize: 14,
+                fontWeight: "300",
+                marginTop: 5,
+              }}
+            >
+              {item.address}
+            </Text>
+            <Text
+              style={{
+                fontSize: 14,
+                fontWeight: "400",
+                marginTop: 5,
+              }}
+            >
+              Rp. {item.price}
+            </Text>
           </View>
+        </View>
+        </Pressable>
+        ))
+      ) : (
+        <View style={{ justifyContent: "center", alignItems: "center" }}>
+          <Text>Belum ada melakukan booking</Text>
+        </View>
         )}
       </ScrollView>
     </View>
